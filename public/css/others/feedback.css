@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+.container{
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.container header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    position: absolute;
+    top: 5px;
+    border-radius: 50px;
+    background-color: #050c74;
+    color: #fff;
+    line-height: 50px;
+    z-index: 100;
+}
+.container header a{
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    cursor: default;
+    background-color: hsla(0, 0%, 86%, 0.38);
+    border-radius: 50px;
+    padding: .5em;
+}
+.container header h3{
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    margin: 0 auto;
+    padding-right: 40px;
+}
+.container .body{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    padding-block: 3em;
+    overflow: hidden;
+}
+.msgContainer{
+    display: flex;
+    flex-direction: column;
+    padding-top: 11px;
+    padding-bottom: 3em;
+    overflow: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: thin;
+}
+.shape{
+    display: flex;
+    margin-block: 7px;
+    margin-bottom: 17px;
+    padding-right: .4em;
+    color: #000000b1;
+    gap: 11px;
+}
+.body .blur{
+    filter: blur(2px);
+}
+img{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid grey;
+    background-color: #f0f0f4c3;
+    padding: 2px;
+}
+.shape h5{
+    display: flex;
+    width: 100%;
+    font-size: 1.1em;
+    font-family: monospace;
+}
+.shape p{
+    display: flex;
+    width: 100%;
+    text-align: justify;
+    margin: 7px auto;
+    padding-right: 7px;
+}
+.msgContainer .date{
+    display: flex;
+    margin: 3px auto;
+    justify-content: center;
+    align-items: center;
+}
+.date small{
+    color: #02063a;
+    font-family: monospace;
+}
+.time{
+    display: flex;
+    margin: 3px auto;
+    width: 100%;
+    justify-content: flex-end;
+}
+.time small{
+    font-size: .7em;
+    padding: 0 7px;
+    color: #2a2a2a;
+}
+.time .seen{
+    color: rgb(0, 224, 0);
+}
+.body .msgInput{
+    display: flex;
+    position: fixed;
+    bottom: 2%;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    gap: 11px;
+}
+.container .msgInput textarea{
+    line-height: 24px;
+    outline: none;
+    border: 2px solid hsl(0, 0%, 80%);
+    border-radius: 10px;
+    width: 75%;
+    max-width: 320px;
+    font-size: 1.1em;
+    padding: .5em 1em;
+    margin: auto;
+    resize: none;
+    min-height: 50px;
+    height: 50px;
+    max-height: 100px;
+}
+.container .msgInput textarea:focus{border: 2px solid #050c74;}
+.msgInput div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    transform: translateX(-12px) rotate(90deg);
+    width: 44px;
+    height: 44px;
+    border-radius: 100px;
+    background-color: hsl(0, 0%, 90%);
+    border: 2px solid hsl(0, 0%, 80%);
+    pointer-events: none;
+}
+.container:has(textarea:not(:placeholder-shown)) .msgInput div{
+    pointer-events: all;
+    background-color: #050c74;
+}
+._default .default{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(0deg 0% 90%);
+    border: 2px solid hsl(0, 0%, 80%);
+    padding: 20px 25px;
+    border-radius: 20px;
+    z-index: 1000;
+}
+._default{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4em 1em;
+    position: absolute;
+    top: 15%;
+    left: 0px;
+}
+.default{
+    flex-direction: column;
+    color: hsl(0, 0%, 20%);
+    font-size: 1em;
+    word-spacing: 4px;
+    text-align: center;
+}
+.default small{
+    font-size: 0.8em;
+    color: hsl(222, 17%, 42%);
+    text-align: center;
+    margin: 10px;
+}
+.default span{
+    display: flex;
+    margin: auto;
+    font-size: .7em;
+    font-weight: 700;
+    float: inline-end;
+    background-color: #050c74;
+    padding: 1.4em;
+    border-radius: 50px;
+    color: #fff;
+}
+
+@media (min-width: 481px) and (min-height: 650px) {
+    .body .msgInput {
+        width: fit-content;
+        padding-inline: 2em;
+    }
+    ._default {
+        max-width: 50%;
+        padding: 4%;
+        transform: translateX(-25%);
+    }
+}
+
+@media screen and (max-width: 320px) and (orientation: portrait) {
+    .container .body{
+        max-width: 300px;
+    }
+}
+
+@media screen and (max-height: 481px) and (orientation: landscape) {
+    .container .body {
+        max-width: 90%;
+    }
+    .container .msgInput textarea {
+        width: 75%;
+        max-width: 90%;
+        max-height: 90px;
+    }
+
+    .msgInput div {
+        transform: translateX(-45px);
+    }
+
+    ._default {
+        top: 8%;
+        transform: scale(.9);
+    }
+}

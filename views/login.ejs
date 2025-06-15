@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/others/log.css">
+    
+    <!-- Boxicons -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+
+    <title>WebG</title>
+</head>
+<body>
+    <section class="welcome-page current-view">
+        <div class="scroller">
+            <div>
+                 <header>
+                     <img width="130px" src="/img/logo.jpeg" alt="">
+                 </header>
+                 <div class="w-info">
+                     <h3>Welcome To WebG</h3>
+                     <div>
+                        Find the nearest hospital, chemist, shop, supermarket, filling station, garage, school, institution, bank, hotels and many more around you on WebG. <br> Thus; you can meet, help or direct your visitors and friends when got lost in the inner city or forest to some certain place to meet or cleared. 
+                     </div>
+                 </div>
+                 <div class="option-btns">
+                     <input id="Sign-in" type="submit" value="Sign in">
+                     <div class="divider">
+                         <span></span>
+                         <h4>or</h4>
+                         <span></span>
+                     </div>
+                     <input id="Sign-up" type="submit" value="Sign up">
+                 </div>
+             </div>
+        </div>
+        <small id="footer">WebG developed @2024</small>
+    </section>
+    <section class="form-page">
+        <div class="suc">
+            <span>&#10004;</span>
+            <b>You made it!</b>
+        </div>
+        <div class="dup-dvc">
+            <div class="icon">
+                <div>
+                    <span>&#33;</span>
+                </div>
+            </div>
+            <div class="dup-dvc-div">
+                <div class="message">
+                    <p>
+                        You have logged in with this account on another device, and is recommended using one device per account for security purposes. <br> Do you want to sign out that device or remain ?
+                    </p>
+                    <div>
+                        <button id="sign-out">Sign Out</button>
+                        <button id="remain">Remain</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroller">
+            <header>
+                <div class="nav-div">
+                    <div class="nav">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 -960 960 960" width="19px" fill="#fff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </div>
+                </div>
+                <div class="logo">
+                    <img src="/img/logo.jpeg" alt="">
+                </div>
+                <div class="helpers">
+                    <div class="info">
+                        <h3 class="header"></h3>
+                        <div class="ps">
+                            <div class="note"></div>
+                            <b id="ps"> * * * * </b>
+                            <div><input type="submit" value="Copy" class="copy"></div>
+                        </div>
+                    </div>
+                    <div class="prev-div">
+                        <div class="prev">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 -960 960 960" width="19px" fill="#fff">
+                                <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="form">
+                <div class="sign-up active">
+                    <label for="nm" class="lbl nm"></label>
+                    <div class="radio-div">
+                        <div class="radio male">Male<span></span></div>
+                        <div class="radio female">Female<span></span></div>
+                        <div class="radio neuter">Neuter<span></span></div>
+                    </div>
+                    <div></div>
+                    <input type="text" placeholder="Full Name" id="nm">
+                    <small id="hint" class="hint-u"></small>
+                </div>
+                <div class="sign-in">
+                    <input type="text" placeholder="Phone Number" id="phn">
+                    <small id="hint" class="hint-i"></small>
+                    <div class="on-off">
+                        <input type="password" placeholder="Password" id="pwd">
+                        <div id="on-off" class="bx bxs-low-vision"></div>
+                    </div>
+                    <small id="hint" class="hint-i-pwd"></small>
+                </div>
+                <input class="submitBtn" type="submit" value="Start">
+            </div>
+        </div>
+    </section>
+    <script src="/js/others/log01.js"></script>
+    <script type="module" src="/js/others/log02.js"></script>
+</body>
+</html>

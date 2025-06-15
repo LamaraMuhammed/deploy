@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebG</title>
+    <style>
+        .container{
+            margin: auto 10px;
+            padding: .5em 0px;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .container header{
+            display: flex;
+            width: 100%;
+            background-color: #050c74;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: #eee;
+            align-items: center;
+            justify-content: center;
+            line-height: 50px;
+            font-weight: 500;
+        }
+        .container header a{
+            display: flex;
+            position: inherit;
+            left: 12px;
+            cursor: default;
+        }
+        .container div{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin: 0 auto;
+            padding: 25px 0;
+            width: 100%;
+            max-width: 320px;
+        }
+        .container div label{
+            margin: 8px 0;
+            font-weight: 600;
+            width: 100%;
+        }
+        .container div input{
+            border: none;
+            outline: none;
+            border-bottom: 1px solid grey;
+            padding-block: .5em;
+            width: 100%;
+        }
+        .container div input:focus{
+            border-bottom: 1px solid rgba(0, 0, 255, 0.813);
+        }
+        .container small{
+            display: flex;
+            margin: -5px auto;
+            justify-content: center;
+            background-color: #050c74;
+            padding-block: 1em;
+            color: rgb(255, 0, 0);
+            width: 36%;
+            border-radius: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transition: 500ms ease;
+        }
+        .container:has(input:focus) small{
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="inner">
+            <header>
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 -960 960 960" width="19px" fill="#fff">
+                        <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                    </svg>
+                </a>
+                Setting 
+            </header>
+            <div>
+                <label for="nickname">Add Nickname</label>
+                <input type="text" id="nickname">
+            </div>
+            <div>
+                <label for="phoneNo">Update Your Phone Number</label>
+                <input type="text" id="phoneNo">
+            </div>
+            <div>
+                <label for="psNo">Regenerate Ps Number</label>
+                <input type="text" id="psNo">
+            </div>
+        </div>
+        <small>On Process !</small>
+    </div>
+</body>
+</html>

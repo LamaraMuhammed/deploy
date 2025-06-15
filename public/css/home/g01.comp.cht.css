@@ -1,0 +1,363 @@
+/* ------------------------------ */
+.chat-Container{display: none;}
+
+.chat {
+    display: flexbox;
+    overflow: hidden;
+    width: 100%;
+    max-width: 481px;
+    height: 100%;
+    position: absolute;
+    background-color: #fff;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 1200;
+}
+
+.chat .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat .head {
+    position: relative;
+    top: 5px;
+    left: 10px;
+    background-color: var(--bg02);
+    border: 2px solid var(--bd);
+    border-radius: var(--r);
+    gap: 1em;
+    padding-inline: .35em;
+    height: 50px;
+    width: fit-content;
+    max-width: 100px;
+    z-index: 1;
+}
+
+.chat:has(.friend) .head{
+    padding: .2em .5em;
+    background-color: var(--bg01);
+    border: 2px solid var(--bd);
+}
+
+.chat img {
+    border-radius: var(--r);
+    background-color: hsl(0, 0%, 60%);
+    padding: .4em;
+    width: 30px;
+    transition: 300ms ease;
+}
+
+.chat:has(.friend) .head img:first-child{background-color: hsla(0, 0%, 86%, 0.38);}
+
+#radio,
+.chat .head img:last-child{display: none;}
+
+.chat:has(.friend) #remote-icon{display: flex;}
+
+.friend img,
+#remote-icon {
+    background-color: var(--bd);
+    padding: .02em;
+    border: 2px solid var(--bd);
+}
+
+.chat .container {
+    display: flex;
+    position: absolute;
+    top: 0px;
+    flex-direction: column;
+    padding: 1em .7em;
+    padding-bottom: 5em;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.chat .container::after {
+    content: "";
+    width: 100%;
+    max-width: 481px;
+    height: 40px;
+    background-color: #ffffff;
+    position: fixed;
+    right: 0;
+    bottom: 0px;
+}
+
+.chat .container.blur{filter: blur(2px);}
+
+.container .shape {
+    max-width: 85%;
+    display: flex;
+    margin-block: .5em;
+    align-self: flex-end;
+    justify-self: flex-end;
+}
+
+.container .shape.remote {
+    align-self: flex-start;
+    justify-self: flex-start;
+}
+
+.shape img {
+    padding: .1em;
+    align-self: flex-end;
+    width: 36px;
+    height: 36px;
+    background-color: hsl(0, 0%, 90%);
+}
+
+.shape .card {
+    flex-direction: column;
+    margin: auto .5em;
+    padding: 1em;
+    gap: .2em;
+    border-radius: 20px;
+    background-color: hsla(0, 2%, 55%, 0.14);
+}
+
+.shape.remote .card {
+    background-color: hsla(214, 98%, 80%, 0.20);
+}
+
+.card p {
+    color: black;
+    display: flex;
+    text-align: start;
+}
+
+.card small {
+    color: hsl(0, 0%, 20%);
+    display: flex;
+    align-self: flex-end;
+    font-size: .7em;
+}
+
+.chat .input {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    background-color: var(--bg02);
+    border: 2px solid var(--bd);
+    border-radius: var(--r);
+    margin: auto;
+    width: 94%;
+    height: 60px;
+    padding: 0 .5em;
+    z-index: 1;
+}
+
+.input textarea {
+    width: fit-content;
+    font-size: 1.1em;
+    background-color: var(--bg02);
+    padding: .4em 1em;
+    height: 40px;
+    max-height: 60px;
+    border-radius: 0px;
+}
+
+.input #send-icon{
+    transform: rotate(90deg);
+    pointer-events: none;
+}
+
+.input img {
+    background-color: hsl(0, 0%, 60%);
+}
+
+.chat:has(.friend) .input img:first-child {
+    background-color: var(--bg01);
+}
+
+.chat img:active {
+    padding: .45em;
+}
+
+.input textarea:not(:placeholder-shown) + #send-icon{
+    background-color: var(--bg01);
+    pointer-events: all;
+}
+
+.chat .room {
+    position: absolute;
+    bottom: 0px;
+    background-color: hsl(0, 0%, 100%);
+    box-shadow: 2px -2px 80px rgba(180, 179, 179, 0.423), 2px 0px 18px rgb(194, 194, 194);
+    padding: 1em;
+    padding-bottom: 5em;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    width: 100%;
+    height: 63vh;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 0px;
+    transform: translateY(85%) scale(.5);
+    transition: 300ms ease;
+    z-index: 1;
+}
+
+.chat .room.show-up {
+    max-height: 100%;
+    transform: translateY(0%) scale(1);
+}
+
+.room .note {
+    margin-block: .5em;
+    gap: .5em;
+    justify-content: space-between;
+}
+
+.note #note {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5em;
+    color: hsl(0, 0%, 50%);
+    transform: translateY(17vh);
+}
+
+.room:has(.friend) .note #note{
+    font-family: inherit;
+    font-size: 1em;
+    transform: translateY(0);
+    color: hsl(0, 0%, 20%);
+    padding-left: 7px;
+}
+
+.room .friends {
+    gap: 1em;
+    flex-direction: column;
+    margin-top: 3em;
+}
+
+.friends .friend {
+    width: 100%;
+    height: 70px;
+    padding-inline: .7em;
+    justify-content: space-between;
+    background-color: var(--bd);
+    border: 2px solid var(--bd);
+    border-radius: var(--r);
+    transition: 300ms ease;
+}
+
+.friends .friend img{
+    width: 40px;
+    height: 40px;
+}
+
+.friend p{
+    color: hsl(0, 0%, 20%); 
+    justify-self: flex-start;
+    width: 100%;
+    margin: auto 1em;
+}
+
+.friend.All p,
+.friend.selected p{
+    color: hsl(0, 0%, 90%);
+}
+
+.friend img:last-child{
+    transform: scale(0);
+    padding: 0;
+}
+
+.friend.selected img:last-child{
+    transform: scale(.5);
+    background-color: #00e70f;
+}
+
+.friend img:first-child{border: 2px solid #ccc;}
+
+.friends .friend.All,
+.friends .friend.selected {
+    background-color: var(--bg01);
+}
+
+.friends .friend:active {
+    transform: scale(.98);
+}
+@media only screen and (max-width: 481px) and (orientation: portrait) {
+
+    /* Bottom Sheet And Share Loc ========================= */
+    #b-sheet {
+        display: flex;
+        height: calc(63vh);
+        transform: translateY(100%);
+        border-top-right-radius: 25px;
+        border-top-left-radius: 25px;
+        top: auto;
+        transition: 300ms ease;
+    }
+
+    .bottom-sheet .bottom-sheet-door {
+        left: auto;
+        width: 50px;
+        max-height: 4px;
+        background-color: hsl(0, 0%, 87%);
+        padding: .15em;
+    }
+
+    #b-sheet:has(.bottom-sheet-door:not(.close)) {
+        transform: translateY(0%);
+        box-shadow: 2px -2px 80px rgba(0, 0, 0, 0.423), 2px 0px 18px rgb(77, 75, 75);
+    }
+}
+
+@media (min-width: 481px) {
+    .footer-div ul li {
+        transform: translateX(calc(100vw / 4 * var(--b))) translateX(10vw);
+    }
+}
+
+@media only screen and (max-height: 481px) and (orientation: landscape) {
+
+    /* Trip Data */
+    .primary-container:has(.head-item.show-setting-panel) .setting-btn-list ul li:has(.openTripRecord) .trip-data {
+        height: calc(25vh);
+    }
+
+    /* Setting > Close Watch > Pwd Mask */
+    .mask .pwd-mask {
+        margin-bottom: 7em;
+        margin-inline: 4em;
+    }
+
+    .toast.warn {
+        opacity: 1;
+        transform: translateY(-100px);
+    }
+
+    /* Record Me */
+    #rec {
+        top: 20vh;
+    }
+
+    .primary-container:has(.guest-icon-list > li) #rec {
+        top: 30vh;
+    }
+
+    .guest-icon-list li img,
+    .onListeningRes {
+        transform: translateY(-7px) scale(.8);
+    }
+
+    .loader-fr.start .loader.small {
+        margin-bottom: 5em;
+    }
+}
+
+@media (max-height: 350px) {
+
+    /* Expander */
+    #exp {
+        display: none;
+    }
+}

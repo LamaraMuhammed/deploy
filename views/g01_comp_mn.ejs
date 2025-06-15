@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="/css/home/g01.comp.mn.css">
+    <link rel="stylesheet" href="/css/home/g02.comp.mn.css">
+    <link rel="stylesheet" href="/css/home/icons.css">
+    <link rel="stylesheet" href="/css/home/g01.comp.cht.css">
+    
+    <!-- Socket  -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-stream/socket.io-stream.js"></script>
+
+    <!-- Leaflet css -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+    <!-- Leaflet js -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <!-- Leaflet Plugins -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    
+    <link rel="stylesheet" href="/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Boxicons -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+    
+    <title>WebG</title>
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+    <section id="_main" style="visibility: collapse;" class="primary-container">
+        
+        <!-- HOME PAGE -->
+        <div class="home-container current-page">
+            <audio id="audio" src="/sounds/s_02.wav"></audio>
+            <header class="home-header">
+                <div class="header-div">
+                    <div class="site-logo">
+                        <h3>WebG</h3>
+                    </div>
+                    <div class="header-menu-div">
+                        <ul>
+                            <li class="head-item" style="--h:0"><img src="/icons/icon.png" id="user-logo"></li>
+                            <li class="head-item nt-icon" style="--h:1"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg></li>
+                            <li class="head-item menu-btn" style="--h:2" onclick="showSettingPanel(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+                            </li>
+                            <div class="setting">
+                                <header>
+                                    <img onclick="showSettingPanel(this)" src="/icons/close.svg" alt="close setting icon" id="clw-nav">
+                                    <label id="menu-title">Menu</label>
+                                </header>
+                                <div class="setting-content current-view">
+                                    <div class="profile-img">
+                                        <img src="/icons/icon.png" id="profile-img" alt="">
+                                        <label for="img-uploader">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M167-120q-21 5-36.5-10.5T120-167l40-191 198 198-191 40Zm191-40L160-358l458-458q23-23 57-23t57 23l84 84q23 23 23 57t-23 57L358-160Zm317-600L261-346l85 85 414-414-85-85Z"/></svg>
+                                        </label>
+                                        <input type="file" name="" id="img-uploader">
+                                        <div class="username-div">
+                                            <p id="username"><small>username</small></p>
+                                            <p id="sim"><small>Phone number</small></p>
+                                            <p id="imgLoadErr"></p>
+                                        </div>
+                                    </div>
+                                    <div class="setting-btn-list">
+                                        <ul>
+                                            <li>
+                                                <a href="/account_setting">Account Setting</a><div class="bx bx-cog"></div>
+                                            </li>
+                                            <li>
+                                                <a onclick="showSettingPanel(this, 'clw')">Close Watch</a><div class="bx bx-globe-alt"></div>
+                                            </li>
+                                            <li>
+                                                <div class="tripOpener" onclick="showSettingPanel(this, 'trip')">
+                                                    <a>Trip Bank</a>
+                                                    <div class="bx bx-objects-vertical-center"></div>
+                                                </div>
+                                                <div class="trip-data">
+                                                    <div class="trip-info">Empty trip bank.</div>
+                                                    <div class="trip-btn">
+                                                        <input type="submit" value="Display" onclick="readTripData()">
+                                                        <input type="submit" value="Delete" id="deleteTrip">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li id="automate" onclick="showSettingPanel(this, 'automate')">
+                                                <a>Automate</a>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#000"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M9.999 13.587 7.7 11.292l-1.412 1.416 3.713 3.705 6.706-6.706-1.414-1.414z"></path></svg>
+                                            </li>
+                                            <li id="sound" onclick="showSettingPanel(this, 'sound')">
+                                                <a>Sound</a>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#000"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M9.999 13.587 7.7 11.292l-1.412 1.416 3.713 3.705 6.706-6.706-1.414-1.414z"></path></svg>
+                                            </li>
+                                            <li>
+                                                <a onclick="showSettingPanel(this, 'lang')">Language</a>
+                                                <div class="bx bx-world"></div>
+                                            </li>
+                                            <li>
+                                                <a href="/About">About the WebG</a>
+                                                <div class="bx bx-question-mark"></div>
+                                            </li>
+                                            <li>
+                                                <a href="/FeedBack">Report a problem / Feedback</a>
+                                                <div class="bx bx-info-circle"></div>
+                                            </li>
+                                            <li>
+                                                <a id="log" onclick="doLog()">Login</a>
+                                                <div class="bx bx-door-open"></div>
+                                            </li>
+                                            <li id="attr">
+                                                <small>WebG developed @2024</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="close-watch">
+                                    <div class="content">
+                                        <div class="note">
+                                            Add the number of people you trust and consent to see you or track you every time in case of missing on the way, kidnap or phone stolen.
+                                            We are really love you and concerned of your privacy.
+                                            <small>listed here:</small>
+                                        </div>
+                                        <div class="table">
+                                            <div class="th">
+                                                <div class="index"></div>
+                                                <div class="pad-2">Phone No</div>
+                                                <div class="pad-2">Name</div>
+                                                <div class="pad-1">Action</div>
+                                            </div>
+                                            <div class="td"></div>
+                                        </div>
+                                        <div class="notice inner"></div>
+                                        <div class="close-watch-input">
+                                            <input type="text" placeholder="Phone number" id="close-watch-input">
+                                            <img src="/icons/back.svg" class="add-clw btn">
+                                        </div>
+                                    </div>
+                                    <div class="mask show-mask">
+                                        <div class="pwd-mask">
+                                            <div class="close-watch-input">
+                                                <div class="notice pwd-notice"></div>
+                                                <div class="on-off">
+                                                    <input type="password" placeholder="Password" id="pwd-input">
+                                                    <div id="on-off" class="bx bxs-low-vision"></div>
+                                                </div>
+                                                <img src="/icons/up.svg" class="enter-pwd btn">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <section class="home-content">
+                <div id="map"></div>
+                <div class="loader-fr">
+                    <div class="loader small"></div>
+                </div>
+                <div id="exp" class="expander-container">
+                    <div class="svg-div" onclick="showExpanderMenu(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M480-400 40-640l440-240 440 240-440 240Zm0 160L63-467l84-46 333 182 333-182 84 46-417 227Zm0 160L63-307l84-46 333 182 333-182 84 46L480-80Z"/></svg>
+                    </div>
+                    <li style="--i:0;" class="exp-li">
+                        <div class="exp-menu-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="4" r="2"></circle><path d="M12 18h2v-5h2V9c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v4h2v5h2z"></path><path d="m18.446 11.386-.893 1.789C19.108 13.95 20 14.98 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.02.892-2.05 2.446-2.825l-.893-1.789C3.295 12.512 2 14.193 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-1.807-1.295-3.488-3.554-4.614z"></path></svg>
+                        </div>
+                        <div class="exp-tip">My Boundary</div>
+                        <div class="exp-sub-menu">
+                            <ul>
+                                <li style="--a:0;" id="pos" class="sub-menu">
+                                    My pos
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-42v-80q-125-14-214.5-103.5T122-440H42v-80h80q14-125 103.5-214.5T440-838v-80h80v80q125 14 214.5 103.5T838-520h80v80h-80q-14 125-103.5 214.5T520-122v80h-80Zm40-158q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 116 82 198t198 82Zm0-120q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm0-80q33 0 56.5-23.5T560-480q0-33-23.5-56.5T480-560q-33 0-56.5 23.5T400-480q0 33 23.5 56.5T480-400Zm0-80Z"/></svg>
+                                </li>
+                                <li style="--a:1;" id="snap" class="sub-menu">
+                                    Snap 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M11 6H9v3H6v2h3v3h2v-3h3V9h-3z"></path><path d="M10 2c-4.411 0-8 3.589-8 8s3.589 8 8 8a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8zm0 14c-3.309 0-6-2.691-6-6s2.691-6 6-6 6 2.691 6 6-2.691 6-6 6z"></path></svg>
+                                </li>
+                                <li style="--a:2;" class="sub-menu">
+                                    Post
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M11 6.914V2.586L6.293 7.293l-3.774 3.774 3.841 3.201L11 18.135V13.9c8.146-.614 11 4.1 11 4.1 0-2.937-.242-5.985-2.551-8.293C16.765 7.022 12.878 6.832 11 6.914z"></path></svg>
+                                </li>
+                                <li style="--a:3;" id="measurement" class="sub-menu">
+                                    Measurement
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M240-120 80-280l160-160 56 56-64 64h496l-64-64 56-56 160 160-160 160-56-56 64-64H232l64 64-56 56ZM80-520v-23q0-24 13-44t36-30q26-11 53.5-17t57.5-6q30 0 57.5 6t53.5 17q23 10 36 30t13 44v23H80Zm480 0v-23q0-24 13-44t36-30q26-11 53.5-17t57.5-6q30 0 57.5 6t53.5 17q23 10 36 30t13 44v23H560ZM240-680q-33 0-56.5-23.5T160-760q0-33 23.5-56.5T240-840q33 0 56.5 23.5T320-760q0 33-23.5 56.5T240-680Zm480 0q-33 0-56.5-23.5T640-760q0-33 23.5-56.5T720-840q33 0 56.5 23.5T800-760q0 33-23.5 56.5T720-680Z"/></svg>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li style="--i:1;" class="exp-li">
+                        <div class="exp-menu-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="m12 17 1-2V9.858c1.721-.447 3-2 3-3.858 0-2.206-1.794-4-4-4S8 3.794 8 6c0 1.858 1.279 3.411 3 3.858V15l1 2zM10 6c0-1.103.897-2 2-2s2 .897 2 2-.897 2-2 2-2-.897-2-2z"></path><path d="m16.267 10.563-.533 1.928C18.325 13.207 20 14.584 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.416 1.675-2.793 4.267-3.51l-.533-1.928C4.197 11.54 2 13.623 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-2.377-2.197-4.46-5.733-5.437z"></path></svg>
+                        </div>
+                        <div class="exp-tip">Indicators</div>
+                        <div class="exp-sub-menu">
+                            <ul>
+                                <li style="--a:0;" id="icons" class="sub-menu">
+                                    Icons
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+                                </li>
+                                <li style="--a:1;" id="custom" class="sub-menu">
+                                    Custom
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M167-120q-21 5-36.5-10.5T120-167l40-191 198 198-191 40Zm191-40L160-358l458-458q23-23 57-23t57 23l84 84q23 23 23 57t-23 57L358-160Zm317-600L261-346l85 85 414-414-85-85Z"/></svg>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li style="--i:2;" class="exp-li">
+                        <div class="exp-menu-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M158-242q-37-50-57.5-110.5T80-480q0-67 20-127t57-110l58 57q-26 38-40.5 83.5T160-480q0 51 14.5 97t40.5 84l-57 57ZM480-80q-67 0-127-20t-110-57l57-58q38 26 83.5 40.5T480-160q51 0 96.5-14.5T660-215l57 58q-50 37-110 57T480-80Zm322-162-57-57q26-38 40.5-84t14.5-97q0-51-14.5-96.5T745-660l58-57q37 50 57 110t20 127q0 67-20.5 127.5T802-242ZM299-745l-57-57q50-37 110.5-57.5T480-880q68 0 128 20.5T718-802l-57 57q-38-26-84-40.5T480-800q-51 0-97 14.5T299-745Zm181 465q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280Z"/></svg>
+                        </div>
+                        <div class="exp-tip">RecordMe</div>
+                        <div class="exp-sub-menu">
+                            <ul>
+                                <li style="--a:0;" id="default" class="sub-menu">
+                                    Default
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M480-200 200-480l280-280 280 280-280 280Zm0-114 166-166-166-166-166 166 166 166Zm0-166Z"/></svg>
+                                </li>
+                                <li style="--a:1;" class="sub-menu">
+                                    Custom
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M167-120q-21 5-36.5-10.5T120-167l40-191 198 198-191 40Zm191-40L160-358l458-458q23-23 57-23t57 23l84 84q23 23 23 57t-23 57L358-160Zm317-600L261-346l85 85 414-414-85-85Z"/></svg>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li style="--i:3;" class="exp-li">
+                        <div class="exp-menu-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M468-240q-96-5-162-74t-66-166q0-100 70-170t170-70q97 0 166 66t74 162l-84-25q-13-54-56-88.5T480-640q-66 0-113 47t-47 113q0 57 34.5 100t88.5 56l25 84Zm48 158q-9 2-18 2h-18q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480v18q0 9-2 18l-78-24v-12q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93h12l24 78Zm305 22L650-231 600-80 480-480l400 120-151 50 171 171-79 79Z"/></svg>
+                        </div>
+                        <div class="exp-tip">Illustration</div>
+                        <div class="exp-sub-menu">
+                            <ul>
+                                <li style="--a:0;" id="$s01" class="sub-menu">
+                                    Self
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+                                </li>
+                                <li style="--a:1;" id="$b01" class="sub-menu">
+                                    Both
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm720 0v-120q0-44-24.5-84.5T666-434q51 6 96 20.5t84 35.5q36 20 55 44.5t19 53.5v120H760ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm400-160q0 66-47 113t-113 47q-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113ZM120-240h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0 320Zm0-400Z"/></svg>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li style="--i:4;" class="exp-li">
+                        <div class="exp-menu-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M480-118 120-398l66-50 294 228 294-228 66 50-360 280Zm0-202L120-600l360-280 360 280-360 280Zm0-280Zm0 178 230-178-230-178-230 178 230 178Z"/></svg>
+                        </div>
+                        <div class="exp-tip">Tiles View</div>
+                        <div class="exp-sub-menu">
+                            <ul>
+                                <li style="--a:0;" id="satellite" class="sub-menu">
+                                    Satellite
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-42v-80q-125-14-214.5-103.5T122-440H42v-80h80q14-125 103.5-214.5T440-838v-80h80v80q125 14 214.5 103.5T838-520h80v80h-80q-14 125-103.5 214.5T520-122v80h-80Zm40-158q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 116 82 198t198 82Zm0-120q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm0-80q33 0 56.5-23.5T560-480q0-33-23.5-56.5T480-560q-33 0-56.5 23.5T400-480q0 33 23.5 56.5T480-400Zm0-80Z"/></svg>
+                                </li>
+                                <li style="--a:1;" id="street" class="sub-menu">
+                                    Street
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M11 6.914V2.586L6.293 7.293l-3.774 3.774 3.841 3.201L11 18.135V13.9c8.146-.614 11 4.1 11 4.1 0-2.937-.242-5.985-2.551-8.293C16.765 7.022 12.878 6.832 11 6.914z"></path></svg>
+                                </li>
+                                <li style="--a:2;" id="terrain" class="sub-menu">
+                                    Terrain
+                                    <svg class="sub-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z"></path><path d="M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a1 1 0 0 0-.086-1.391l-4.064-3.696z"></path></svg>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li style="--i:5;" class="exp-li">
+                        <div class="exp-menu-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                        </div>
+                        <div class="exp-tip">Clear</div>
+                        <div class="exp-sub-menu">
+                            <ul>
+                                <li style="--a:0;" id="delOne" class="sub-menu">Delete One</li>
+                                <li style="--a:1;" id="delAll" class="sub-menu">Delete All</li>
+                            </ul>
+                        </div>
+                    </li>
+                </div>
+                <div class="hidden-items-container">
+                    <ul class="guest-icon-list"></ul>
+                    <ul class="guest-icon-onListeningRes"></ul>
+                    <!-- pop up like js alert on browser -->
+                    <div class="requestPanel">
+                        <div class="face-folder">
+                            <div class="rejectCall">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="m136-304-92-90q-12-12-12-28t12-28q88-95 203-142.5T480-640q118 0 232.5 47.5T916-450q12 12 12 28t-12 28l-92 90q-11 11-25.5 12t-26.5-8l-116-88q-8-6-12-14t-4-18v-114q-38-12-78-19t-82-7q-42 0-82 7t-78 19v114q0 10-4 18t-12 14l-116 88q-12 9-26.5 8T136-304Zm104-198q-29 15-56 34.5T128-424l40 40 72-56v-62Zm480 2v60l72 56 40-38q-29-26-56-45t-56-33Zm-480-2Zm480 2Z"/></svg>
+                            </div>
+                            <div class="img-f"><img src="/icons/icon.png" class="requesterImg"></div>
+                            <div class="acceptCall">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
+                            </div>
+                        </div>
+                        <div class="r-p-info">
+                            <b class="r-nm"></b>
+                            <small class="r-nt"></small>
+                        </div>
+                    </div>
+                    <!-- BottomSheet -->
+                    <div class="friend-panel-opener bx bx-downvote"></div>
+                    <div class="bottom-sheet" id="b-sheet">
+                        <img src="/icons/back.svg" class="bottom-sheet-door close">
+                        <div class="quick-panel-container">
+                            <div class="remote-logo">
+                                <img id="quick-panel-img">
+                                <h4 id="quick-panel-name"></h4>
+                                <div class="voice">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
+                                        <path
+                                            d="M480-384q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-36 480v-99q-98.8-13.1-163.4-87.05Q216-404 216-504h72q0 79.68 56.23 135.84 56.22 56.16 136 56.16Q560-312 616-368.16q56-56.16 56-135.84h72q0 100-64.6 173.95Q614.8-256.1 516-243v99h-72Zm36-312q20.4 0 34.2-13.8Q528-483.6 528-504v-240q0-20.4-13.8-34.2Q500.4-792 480-792q-20.4 0-34.2 13.8Q432-764.4 432-744v240q0 20.4 13.8 34.2Q459.6-456 480-456Z" />
+                                    </svg>
+                                </div>
+                                <div class="disconnect">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
+                                        <path
+                                            d="M480-96q-79 0-149-30t-122.5-82.5Q156-261 126-331T96-480q0-80 30-149.5t82.5-122Q261-804 331-834t149-30q80 0 149.5 30t122 82.5Q804-699 834-629.5T864-480q0 79-30 149t-82.5 122.5Q699-156 629.5-126T480-96Zm0-72q55 0 104-18t89-50L236-673q-32 40-50 89t-18 104q0 130 91 221t221 91Zm244-119q32-40 50-89t18-104q0-130-91-221t-221-91q-55 0-104 18t-89 50l437 437Z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="detail">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Location</th>
+                                            <th>Distance</th>
+                                            <th>Accuracy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="loc"></td>
+                                            <td id="dis"></td>
+                                            <td id="acc"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="share-loc-div">
+                            <div class="share-options">
+                                <p id="share-loc-info">Connect and share location by clicking on the shareloc button, or connect without sharing location by clicking on the no shareloc button.</p>
+                                <span id="optionBtn">Ps</span>
+                            </div>
+                            <div class="share-loc">
+                                <div class="share-input">
+                                    <input type="text" placeholder="Phone Number" id="input-field">
+                                    <small id="shr-loc-hint"></small>
+                                </div>
+                                <div class="share-btns">
+                                    <button id="share">ShareLoc</button>
+                                    <button id="noShare">No ShareLoc</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mid Pop of Customization -->
+                    <div class="midPop">
+                        <div class="custom-icon">
+                            <div id="custom-icon-info">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#fff"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                                </span>
+                                <div>
+                                    You can write anything and tag an image here that you want your friend to see, image should be less than 5MB. <br> If you want to close the pop up click save button twice.
+                                </div>
+                            </div>
+                            <div>
+                                <textarea placeholder="Type your quick message here..." id="custom-text"></textarea>
+                            </div>
+                            <div class="custom-img">
+                                <div class="custom-img-folder">
+                                    <label for="custom-icon-file">Click me to add image</label>
+                                    <input type="file" accept="image/jpeg, image/png, image/jpg" id="custom-icon-file">
+                                </div>
+                                <span id="custom-img-del">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#fff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                                </span>
+                            </div>
+                            <div class="custom-icon-btns">
+                                <input type="submit" id="custom-icon-save" value="Save">
+                                <input type="submit" id="custom-icon-edit" value="Edit">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- log out panel and distance viewer -->
+                    <div class="mini-board">
+                        <div id="mini-board-info"></div>
+                        <div class="board-btn">
+                            <input type="submit" value="Yes" onclick="doLog(this)">
+                            <input type="submit" value="No" onclick="doLog(this)">
+                        </div>
+                    </div>
+                    <!-- Trip Recording -->
+                    <div id="rec" class="record-me">
+                        <div class="record-btns">
+                            <li style="--r:0"><div id="recCounter">15:00</div></li>
+                            <li style="--r:1"><div id="pauseRec" class="bx bx-play"></div></li>
+                            <li style="--r:2"><div id="saveRec" class="bx bx-check"></div></li>
+                            <li id="deleteRec" style="--r:3"><div id="saveRecording" class="bx bx-x"></div></li>
+                        </div>
+                        <div id="displayRec">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M479-359q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Zm0 279L309-250l57-57 114 114 113-113 56 56L479-80ZM249-309 79-479l170-170 57 57-114 114 113 113-56 56Zm116-345-56-56 170-170 170 170-57 57-114-114-113 113Zm344 345-57-57 114-114-113-113 56-56 170 170-170 170Z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer>
+                <div class="footer-div">
+                    <ul>
+                        <li style="--b:0">
+                            <div id="hm" class="btn-div selected" onclick="footerBtnToggle(this, 1)">
+                                <div class="svg-folder">
+                                    <svg class="changeClr" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>
+                                </div>
+                                <small>Home</small>
+                            </div>
+                        </li>
+                        <li style="--b:1">
+                            <div class="btn-div" onclick="footerBtnToggle(this, 2)">
+                                <div class="svg-folder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M519-82v-80q42-6 81.5-23t74.5-43l58 58q-47 37-101 59.5T519-82Zm270-146-56-56q26-33 42-72.5t22-83.5h82q-8 62-30.5 115.5T789-228Zm8-292q-6-45-22-84.5T733-676l56-56q38 44 61.5 98T879-520h-82ZM439-82q-153-18-255.5-131T81-480q0-155 102.5-268T439-878v80q-120 17-199 107t-79 211q0 121 79 210.5T439-162v80Zm238-650q-36-27-76-44t-82-22v-80q59 5 113 27.5T733-790l-56 58ZM480-280q-58-49-109-105t-51-131q0-68 46.5-116T480-680q67 0 113.5 48T640-516q0 75-51 131T480-280Zm0-200q18 0 30.5-12.5T523-523q0-17-12.5-30T480-566q-18 0-30.5 13T437-523q0 18 12.5 30.5T480-480Z"/></svg>
+                                </div>
+                                <small>ShareLoc</small>
+                            </div>
+                        </li>
+                        <li style="--b:2">
+                            <div id="chat-btn" class="btn-div" onclick="footerBtnToggle(this, 3)">
+                                <div class="svg-folder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M880-80 720-240H320q-33 0-56.5-23.5T240-320v-40h440q33 0 56.5-23.5T760-440v-280h40q33 0 56.5 23.5T880-640v560ZM160-473l47-47h393v-280H160v327ZM80-280v-520q0-33 23.5-56.5T160-880h440q33 0 56.5 23.5T680-800v280q0 33-23.5 56.5T600-440H240L80-280Zm80-240v-280 280Z"/></svg>
+                                </div>
+                                <small>Chat</small>
+                            </div>
+                        </li>
+                        <li style="--b:3">
+                            <div class="btn-div" onclick="footerBtnToggle(this, 4)">
+                                <div class="svg-folder">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M120-120v-560h240v-80l120-120 120 120v240h240v400H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm240 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm240 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z"/></svg>
+                                </div>
+                                <small>Tour</small>
+                            </div>
+                        </li> 
+                    </ul>
+                </div>
+            </footer>
+        </div>
+
+        <!-- CHAT PAGE -->
+        <section class="chat">
+            <div class="head flex">
+                <img src="/icons/back.svg" alt="navigator icon" id="chat-nav">
+                <img src="/icons/icon.png" alt="friend image" width="30px" id="remote-icon">
+            </div>
+            <div class="container scroller"></div>
+            <div class="input flex">
+                <img src="/icons/up.svg" alt="icon" id="open-frnd-panel-icon">
+                <textarea name="chat" id="chat-input" placeholder="Message here"></textarea>
+                <img src="/icons/back.svg" alt="send icon" id="send-icon">
+            </div>
+            <div class="room">
+                <div class="note flex">
+                    <div id="note">All your connected friends will be here</div>
+                    <div id="rd">
+                        <input type="radio" id="radio">
+                    </div>
+                </div>
+                <div class="friends flex"></div>
+            </div>
+        </section>
+
+        <!-- NOTIFICATION PAGE -->
+        <div class="notification">
+            <header>
+                <img src="/icons/back.svg" alt="" width="30px" id="nt-nav">
+                <label>Notification</label>
+            </header>
+            <div class="nt-container"></div>
+            <div class="nt-more">
+                <div class="nt-cont">
+                    <div class="tabs req-by-nt">
+                        <img src="/icons/share_windows.svg" alt="">
+                        <small>Request Back</small>
+                    </div>
+                    <div class="tabs del-nt">
+                        <img src="/icons/dangerous.svg" alt="">
+                        <small>Delete the Notification</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden-items-container toast"></div>
+    </section>
+    <script src="/js/utils/dom.js"></script>
+    <script src="/js/home/g01.comp.mn_1.js"></script>
+    <script src="/js/home/g01.comp.mn_2.js"></script>
+    <script src="/js/home/g02.comp.mp.js"></script>
+    <script type="module" src="/js/home/g03.comp.sk.js"></script>
+    <script type="module" src="/js/home/g04.comp.rq.js"></script>
+</body>
+</html>

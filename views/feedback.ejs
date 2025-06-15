@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/others/feedback.css">
+
+    <!-- Socket  -->
+     <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script> -->
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+
+    <title>WebG</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
+                    <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                </svg>
+            </a>
+            <h3>WebG</h3>
+        </header>
+        <div class="body">
+            <div class="msgContainer"></div>
+            <div class="_default">
+                <p class="default">Your comment on our product is highly needed and importance, to ensure the product is really fits to your needs, and it will help others to use the site for day-to-day navigation.
+                    <small>You can write any good idea or bugs and we will view it or fix it, thanks.</small>
+                    <span>OK</span>
+                </p>
+            </div>
+            <div class="msgInput"> 
+                <textarea name="feedback" cols="30" rows="10" placeholder="Comment here..."></textarea>
+                <div>
+                    <svg id="sendBtn" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff">
+                        <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/js/others/feedback.js"></script>
+</body>
+</html>
