@@ -28,7 +28,7 @@ const app = express();
 
 const server = http.createServer(app, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://deploy-21ti.onrender.com",
     Credential: true,
   },
 });
@@ -36,7 +36,11 @@ const server = http.createServer(app, {
 // Socket.IO
 const io = new Server(server, {
   maxHttpBufferSize: 10 * 1024 * 1024, // 10MB
-  cors: { origin: "http://localhost:3000", Credential: true, methods: ["GET", "POST"] },
+  cors: {
+    origin: "https://deploy-21ti.onrender.com",
+    Credential: true,
+    methods: ["GET", "POST"],
+  },
 });
 
 // Socket Middleware
