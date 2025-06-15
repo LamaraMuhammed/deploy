@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "npm start app.js"
+    "start": " start app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "node": "22.11.0"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2"
   }
