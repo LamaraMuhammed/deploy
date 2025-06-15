@@ -3,6 +3,8 @@ const http = require("http");
 const express = require("express");
 const port = process.env.PORT || 3000;
 
+const logUser = require("./app_components/routers/users");
+
 const app = express();
 
 const server = http.createServer(app);
@@ -18,20 +20,7 @@ app.set("views", "./view");
 
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
-
-app.get("/api", (req, res) => {
-  res.status(200).json({
-    name: "Ya Rasulallah",
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 4,
-  });
-  res.end();
-});
+app.use("/logs", logUser);
 
 server.listen(port, () => {
   console.log("Server is running on port 3000", port);

@@ -15,8 +15,25 @@
     "node": "22.11.0"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "compression": "^1.7.5",
+    "cookie": "^1.0.2",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "leaflet-routing-machine": "^3.2.12",
+    "leaflet.markercluster": "^1.5.3",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.12.0",
+    "node-uuid": "^1.4.8",
+    "sharp": "^0.33.5",
+    "socket.io": "^4.8.1",
+    "socket.io-stream": "^0.5.3",
+    "web-push": "^3.6.7"
   }
 }
