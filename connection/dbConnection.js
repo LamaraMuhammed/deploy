@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const mongoose = require("mongoose");
+// const url = "mongodb://localhost:27017/WebG";
 
 
 // const connection = mysql.createConnection(JSON.parse(process.env.SQL));

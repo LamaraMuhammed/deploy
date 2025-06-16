@@ -797,11 +797,21 @@ dom.listen(dom.getById("deleteTrip"), () => {
 });
 
 
-function display(data) {
-  let d = dom.select('.opp');
-  let div = dom.create('div');
 
-  for (let i = 0; i < 6; i++) {
+
+//  ------------------------------
+const d = dom.select('.opp');
+var point, point1;
+
+dom.listen(dom.userLogo, () => {
+  dom.doToggle(d, 'show');
+})
+
+function display(data, c = 'a') {
+  let div = dom.create('div');
+  dom.addCls(div, c);
+
+  for (let i = 0; i < 7; i++) {
     let c = dom.create('p');
     dom.swapText(c, data[i]);
     div.appendChild(c);
@@ -809,11 +819,34 @@ function display(data) {
   d.appendChild(div);
 }
 
-let pos = () => {
+const w_pos = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(
+      (position) => {
+        display(
+          [
+            "Latitude: " + position.coords.latitude,
+            "Longitude: " + position.coords.longitude,
+            "acc: " + position.coords.accuracy,
+            "alt: " + position.coords.altitude,
+            "altAcc: " + position.coords.altitudeAccuracy,
+            "speed: " + position.coords.speed,
+            "hd: " + position.coords.heading,
+          ], 'w');
+      },
+      (error) => {
+        console.error(error.message);
+      }
+    );
+  }
+};
+
+w_pos();
+
+const pos = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        // console.log(position); // Log the position object
         const coords = {
           from: "navigator.geolocation",
           lat: position.coords.latitude,
@@ -826,13 +859,34 @@ let pos = () => {
         };
         display(
           [
-            `Latitude: ${position.coords.latitude}   Longitude: ${position.coords.longitude}`,
+            "Latitude: " + position.coords.latitude,
+            "Longitude: " + position.coords.longitude,
             "acc: " + position.coords.accuracy,
             "alt: " + position.coords.altitude,
             "altAcc: " + position.coords.altitudeAccuracy,
             "speed: " + position.coords.speed,
             "hd: " + position.coords.heading,
           ]);
+        let e = L.latLng(position.coords.latitude, position.coords.longitude);
+        // mapComp.addLocalMarker(e);
+        
+        try {
+          if (point) map.removeLayer(point);
+          // if (point1) map.removeLayer(point1);
+
+          point = L.marker(e);
+          point1 = L.marker(e, {
+            icon: Markers.remotePsMidIcon,
+          });
+          
+          point1.addTo(map);
+          point.addTo(map);
+
+        } catch (err) {
+          console.error(err); // Log the error
+          return;
+        }
+        
         // socket.emit("pwd-check", coords);
       },
       (error) => {
@@ -842,6 +896,10 @@ let pos = () => {
     );
   }
 };
+
+
+
+
 
 dom.listen(dom.disconnectBtn, () => {
   const x_id = dom.getVal(dom.defaultFrndToInteract).id;
