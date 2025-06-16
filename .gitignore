@@ -1,6 +1,5 @@
 .vscode
 /public/img
-/public/plugins
 
 # Dependency directories
 node_modules/
