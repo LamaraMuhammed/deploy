@@ -1,6 +1,27 @@
 /* ------------------------------ */
 .chat-Container{display: none;}
-
+.opp{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 30px;
+    width: 90%;
+    margin: auto;
+    height: 400px;
+    background-color: #050c74;
+    color: #fff;
+    overflow: hidden;
+    overflow-y: auto;
+    right: 0;
+    left: 0;
+}
+.opp div{
+    margin: .5em;
+    background-color: #2c339aa8;
+    padding: 1em;
+    width: fit-content;
+    border: 20px;
+}
 .chat {
     display: flexbox;
     overflow: hidden;

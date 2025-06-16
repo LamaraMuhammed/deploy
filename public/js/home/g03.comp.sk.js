@@ -796,18 +796,44 @@ dom.listen(dom.getById("deleteTrip"), () => {
   }
 });
 
-() => {
+
+function display(data) {
+  let d = dom.select('.opp');
+  let div = dom.create('div');
+
+  for (let i = 0; i < 6; i++) {
+    let c = dom.create('p');
+    dom.swapText(c, data[i]);
+    div.appendChild(c);
+  }
+  d.appendChild(div);
+}
+
+let pos = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position); // Log the position object
+        // console.log(position); // Log the position object
         const coords = {
           from: "navigator.geolocation",
           lat: position.coords.latitude,
           lng: position.coords.longitude,
+          acc: position.coords.accuracy,
+          alt: position.coords.altitude,
+          altAcc: position.coords.altitudeAccuracy,
+          speed: position.coords.speed,
+          hd: position.coords.heading,
         };
-        console.log(coords); // Log the coords object
-        socket.emit("pwd-check", coords);
+        display(
+          [
+            `Latitude: ${position.coords.latitude}   Longitude: ${position.coords.longitude}`,
+            "acc: " + position.coords.accuracy,
+            "alt: " + position.coords.altitude,
+            "altAcc: " + position.coords.altitudeAccuracy,
+            "speed: " + position.coords.speed,
+            "hd: " + position.coords.heading,
+          ]);
+        // socket.emit("pwd-check", coords);
       },
       (error) => {
         console.error(error.message); // Log the error
@@ -838,7 +864,7 @@ let inc = 0.00001;
   setInterval(() => {
     lng += inc;
     Markers.localCoords = { lat: `10.30381456`, lng: lng };
-
+    pos();
     //  On Ps Number connection
     if (dom.getVal("ps-req")) mapComp.sendPs_Req(Markers.localCoords);
 
