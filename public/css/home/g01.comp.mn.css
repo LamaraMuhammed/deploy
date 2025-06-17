@@ -8,7 +8,7 @@
 :root {
     --bg01: hsl(237, 92%, 24%);
     --bg02: hsl(0, 0%, 95%);
-    --bd: hsl(0, 0%, 90%);
+    --bd: hsl(0, 0%, 80%);
     --bg-color: #050c74;
     --grey-color: #050c7440;
     --r: 50px;
@@ -90,8 +90,9 @@ header, .header-div, footer, .footer-div{
 .setting img,
 #user-logo
 {
-    width: 32px;
-    height: 32px;
+    width: 37px;
+    aspect-ratio: 1;
+    object-fit: cover;
     padding: .04em;
     background-color: rgb(209, 251, 251);
 }
@@ -153,21 +154,16 @@ header label{
     justify-content: center;
     position: relative;
     width: 100%;
-    height: 200px;
+    padding-block: 1em;
     border-radius: 20px;
     background-color: #050c74;
 }
 .profile-img img{
-    position: absolute;
-    top: 15px;
-    border: none;
+    position: relative;
     opacity: 0;
-    width: 125px;
-    height: 125px;
-    aspect-ratio: 3/4;
-    object-fit: fill;
+    width: 50%;
+    margin-bottom: 2em;
     transform: scale(0);
-    box-shadow: 2px 1px 7px #f9f9f950;
     transition: 300ms ease-in-out;
 }
 .primary-container:has(.head-item.show-setting-panel) .profile-img img{
@@ -189,10 +185,8 @@ header label{
     flex-wrap: wrap;
     width: calc(0%); 
     bottom: 0px;
-    height: 63px;
     text-align: center;
     align-items: center;
-    justify-content: center;
 }
 .primary-container:has(.head-item.show-setting-panel)
 .profile-img .username-div{
@@ -561,9 +555,14 @@ header label{
     margin-inline: 1.5em;
     border-radius: 20px;
 }
-.pwd-mask .on-off .bx{
+.pwd-mask .on-off{ 
+    display: flex; 
+    align-items: center;
+    position: relative;
+}
+.pwd-mask #on-off{
     position: absolute;
-    transform: translate(-35px, 8px);
+    right: 5px;
     background-color: #80808078;
     padding: .4em;
     border-radius: 50px;

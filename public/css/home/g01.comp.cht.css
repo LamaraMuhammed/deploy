@@ -1,5 +1,4 @@
 /* ------------------------------ */
-.chat-Container{display: none;}
 .opp{
     display: flex;
     flex-direction: column;
@@ -32,13 +31,16 @@
     max-width: 100%;
     max-height: 100%;
 }
+
+
 .chat {
-    display: flexbox;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 481px;
-    height: 100%;
     position: absolute;
+    justify-content: end;
     background-color: #fff;
     top: 0px;
     right: 0px;
@@ -53,7 +55,7 @@
 }
 
 .chat .head {
-    position: relative;
+    position: absolute;
     top: 5px;
     left: 10px;
     background-color: var(--bg02);
@@ -97,13 +99,10 @@
 
 .chat .container {
     display: flex;
-    position: absolute;
-    top: 0px;
+    position: relative;
     flex-direction: column;
-    padding: 1em .7em;
-    padding-bottom: 5em;
+    padding: 5em .7em;
     width: 100%;
-    height: 100%;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -170,7 +169,7 @@
 
 .chat .input {
     position: absolute;
-    bottom: 5px;
+    bottom: 10px;
     left: 0;
     right: 0;
     justify-content: space-between;
@@ -316,6 +315,13 @@
     transform: scale(.98);
 }
 @media only screen and (max-width: 481px) and (orientation: portrait) {
+    .exp-menu-btn,
+    .svg-div,
+    .svg-folder,
+    .header-menu-div .nt-icon,
+    .header-menu-div .menu-btn{padding: .5em;}
+
+    .exp-li ul li{transform: scale(.8);}
 
     /* Bottom Sheet And Share Loc ========================= */
     #b-sheet {

@@ -37,9 +37,6 @@
     
     <link rel="stylesheet" href="/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <script src="/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    
-    <!-- Boxicons -->
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
@@ -166,7 +163,7 @@
                                                 <div class="notice pwd-notice"></div>
                                                 <div class="on-off">
                                                     <input type="password" placeholder="Password" id="pwd-input">
-                                                    <div id="on-off" class="bx bxs-low-vision"></div>
+                                                    <img src="/icons/eye-crossed.svg" alt="icon" id="on-off"> 
                                                 </div>
                                                 <img src="/icons/up.svg" class="enter-pwd btn">
                                             </div>
@@ -473,7 +470,7 @@
         <section class="chat">
             <div class="head flex">
                 <img src="/icons/back.svg" alt="navigator icon" id="chat-nav">
-                <img src="/icons/icon.png" alt="friend image" width="30px" id="remote-icon">
+                <img src="/icons/icon.png" alt="friend image" width="34px" id="remote-icon">
             </div>
             <div class="container scroller"></div>
             <div class="input flex">
@@ -493,7 +490,7 @@
         </section>
 
         <!-- NOTIFICATION PAGE -->
-        <div class="notification">
+        <section class="notification">
             <header>
                 <img src="/icons/back.svg" alt="" width="30px" id="nt-nav">
                 <label>Notification</label>
@@ -511,7 +508,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="hidden-items-container toast"></div>
     </section>

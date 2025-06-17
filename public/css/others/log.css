@@ -187,13 +187,14 @@ input[type="submit"]{
     display: flex;
     width: 100%;
     max-width: 320px;
+    position: relative;
 }
 #on-off{
     position: absolute;
     transform: translate(0px, 50px);
     background-color: #80808078;
     padding: .5em;
-    right: 20px;
+    right: 10px;
     border-radius: 50px;
 }
 .form .sign-in #pwd{margin-top: 3em;}
@@ -422,12 +423,9 @@ section #footer{
     display: flex;
     text-align: center;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
     padding: .5em;
     gap: 2em;
-    width: 100%;
-    font-family: monospace;
 }
 .dup-dvc .dup-dvc-div,
 .message div{
@@ -438,7 +436,7 @@ section #footer{
 }
 .message button{
     margin-inline: 2em;
-    line-height: 30px;
+    line-height: 36px;
     padding-inline: 1em;
     border-radius: 10px;
     width: max-content;

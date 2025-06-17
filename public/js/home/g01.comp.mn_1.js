@@ -688,14 +688,15 @@ class DOM extends _DOM {
       this.pwdInput.focus();
       this.recordClicks("clw_pwd_on_off");
 
-      if (onOff.classList[1] === "bxs-low-vision") {
-        this.rmCls(onOff, "bxs-low-vision");
-        this.addCls(onOff, "bxs-key");
-        this.pwdInput.setAttribute("type", "text");
-      } else {
-        this.rmCls(onOff, "bxs-key");
-        this.addCls(onOff, "bxs-low-vision");
+      if (onOff.classList[0]) {
+        this.rmCls(onOff, "eye-open");
+        onOff.src = "/icons/eye-crossed.svg";
         this.pwdInput.setAttribute("type", "password");
+        
+      } else {
+        this.addCls(onOff, "eye-open");
+        onOff.src = "/icons/eye.svg";
+        this.pwdInput.setAttribute("type", "text");
       }
     });
   }
