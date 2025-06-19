@@ -736,54 +736,45 @@ input[type="file"]{display: none;}
 .record-me .record-btns{
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: absolute;
 }
-.record-btns li{
+.record-btns .rec-btn{
     display: flex;
-    color: #fff;
     align-items: center;
-    justify-content: space-evenly;
+    transform: scale(.2);
     position: fixed;
-    transform: scale(.7, 1);
-    transition: 300ms ease;
+    margin: auto;
+    transition: 400ms ease-out;
 }
-.record-me li:first-child{
+
+.record-me .rec-counter{
     color: #00ff1e;
-    font-weight: 400;
+    font-weight: 600;
+    font-size: 1.3em;
+    min-width: 100px;
 }
-.record-me li .bx{
-    display: flex;
-    position: relative;
-    align-items: center;
-    justify-content: center;
+.record-me img{
+    width: 34px;
     background-color: #ff0000;
-    border-radius: 100px;
-    transition: 200ms ease-out;
+    border-radius: var(--r);
+    padding: .4em;
+    border: 1px solid #eee;
 }
 .record-me #displayRec{
     display: flex;
+    padding: .5em;
     position: relative;
-    padding: .3em;
-    border-radius: 100px;
+    border-radius: var(--r);
     background-color: #050c74;
     border: 1px solid #fff;
     transition: 300ms ease;
 } 
 .record-me #displayRec:active{transform: scale(0.95);}
-.record-me #pauseRec.bx-pause{background-color: #4652fe;}
-.record-me #saveRec.saved{background-color: #02cc02;}
+.record-me .pauseRec.pause{background-color: #4652fe;}
+.record-me .saveRec.saved{background-color: #02cc02;}
 .record-me:has(.minimize) #displayRec{background-color: rgb(234, 8, 8);}
-.hidden-items-container:has(.show-btns) .record-btns li{
-    transform: translateX(calc(-65vw / -4 * var(--r))) translateX(-65vw);
+
+.hidden-items-container:has(.show-btns) .record-btns .rec-btn{
+    transform: translateX(calc(-67vw / -4 * var(--r-i))) translateX(-64vw) scale(1);
 }
-.hidden-items-container:has(.show-btns) .record-btns li:first-child{
-    transform: translateX(calc(-65vw / -4 * var(--r))) translateX(-65vw) scale(.9, 1.2);
-}
-.hidden-items-container:has(.show-btns) .record-btns li .bx{
-    padding: .13em;
-    transform: scale(1.4);
-    transition: 400ms ease-in-out;
-}
-.hidden-items-container:has(.show-btns) .record-btns li .bx:active{font-size: .98em;}
+
 .primary-container:has(.guest-icon-list > li) .record-me {top: 130px;}

@@ -55,7 +55,7 @@
             <audio id="audio" src="/sounds/s_02.wav"></audio>
             <header class="home-header">
                 <div class="header-div">
-                    <div class="opp show"></div>
+                    <div class="opp "></div>
                     <div class="site-logo">
                         <h3>WebG</h3>
                     </div>
@@ -415,10 +415,10 @@
                     <!-- Trip Recording -->
                     <div id="rec" class="record-me">
                         <div class="record-btns">
-                            <li style="--r:0"><div id="recCounter">15:00</div></li>
-                            <li style="--r:1"><div id="pauseRec" class="bx bx-play"></div></li>
-                            <li style="--r:2"><div id="saveRec" class="bx bx-check"></div></li>
-                            <li id="deleteRec" style="--r:3"><div id="saveRecording" class="bx bx-x"></div></li>
+                            <div style="--r-i:0" class="rec-btn rec-counter">15:00</div>
+                            <img src="/icons/pause_20.svg" style="--r-i:1" class="rec-btn pauseRec">
+                            <img src="/icons/check_20.svg" style="--r-i:2" class="rec-btn saveRec">
+                            <img src="/icons/close.svg" style="--r-i:3" class="rec-btn deleteRec">
                         </div>
                         <div id="displayRec">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M479-359q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Zm0 279L309-250l57-57 114 114 113-113 56 56L479-80ZM249-309 79-479l170-170 57 57-114 114 113 113-56 56Zm116-345-56-56 170-170 170 170-57 57-114-114-113 113Zm344 345-57-57 114-114-113-113 56-56 170 170-170 170Z"/></svg>

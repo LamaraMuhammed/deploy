@@ -14,6 +14,7 @@ class DOM extends _DOM {
     this.fullViewImg = null;
     this.rec_save = false;
 
+    this.requestQue = new Map();
     this.formData = new FormData();
     this.fileReader = new FileReader();
     this.date = new Date().toDateString();
@@ -30,10 +31,10 @@ class DOM extends _DOM {
 
     this.recordMe = this.select(".record-me"); // Rec
     this.displayRec = this.getById("displayRec");
-    this.saveRecBtn = this.getById("saveRec");
-    this.pauseRec = this.getById("pauseRec");
-    this.deleteRec = this.getById("deleteRec");
-    this.recCounter = this.getById("recCounter");
+    this.saveRecBtn = this.select(".saveRec");
+    this.pauseRec = this.select(".pauseRec");
+    this.deleteRec = this.select(".deleteRec");
+    this.recCounter = this.select(".rec-counter");
     this.initialRecDuration = 3600 / 4; // time interval for rec duration in secs (i.e 15m)
     this.rec_counter = this.initialRecDuration;
 
@@ -444,10 +445,10 @@ class DOM extends _DOM {
     this.swapText(this.quickPanelName, name);
   }
 
-  renderMyLocation(data) {
-    this.swapText(this.location, data.locationName);
-    this.swapText(this.distance, "23.674km");
-    this.swapText(this.accuracy, data.Accuracy); // suppose to make it like visual and animated
+  renderMyLocation(loc_name = '', dis = '', acc = '', speed) {
+    this.swapText(this.location, loc_name);
+    this.swapText(this.distance, dis);
+    this.swapText(this.accuracy, acc); // suppose to make it like visual and animated
   }
 
   adviceToTurnOnAutomate() {
@@ -514,10 +515,10 @@ class DOM extends _DOM {
       this.addCls(this.recordMe, "startRec");
       this.setVal("prev_note", this.tripInfo.innerHTML);
       this.tripInfoMsg("Trip recording started ...");
-
+      
       doLater(() => {
         this.addCls(this.recordMe, "show-btns");
-        this.mp.set("recOn", true); // starting trip recording
+        this.emit("start-recording", true); // starting trip recording
       }, 500);
     }
   }
@@ -525,11 +526,11 @@ class DOM extends _DOM {
   resetCount() {
     this.rec_counter = this.initialRecDuration;
     this.recordMe.classList.remove("startRec");
-    this.pauseRec.classList.remove("bx-pause");
-    this.saveRecBtn.classList.remove("saved");
-    this.pauseRec.classList.add("bx-play");
+    this.rmCls(this.pauseRec, "pause");
+    this.rmCls(this.saveRecBtn, "saved");
+    this.pauseRec.src = "/icons/pause_20.svg";
     this.swapText(this.recCounter, "15:00");
-    this.mp.set("recOn", false);
+    this.emit("start-recording", false);
     this.rec_save = false;
   }
 
@@ -733,7 +734,7 @@ class DOM extends _DOM {
     if (arg.date) {
       const date = this.whatDay(arg.date); // ? "Yesterday" : this.isToday(time) ? "Today" : this.date, time_tag);
       if (!this.getVal(date)) {
-        say(date);
+        // say(date);
         this.setVal(date, true);
       }
     }
@@ -908,9 +909,10 @@ class DOM extends _DOM {
       switch (button.id) {
         case "pos":
           if (Markers.checkState("pos")) {
-            Markers.setState("pos", "disabled");
+            this.emit("init-pos", false);
+            
           } else {
-            Markers.setState("pos");
+            this.emit("init-pos", true);
           }
           break;
         case "snap":
@@ -919,7 +921,7 @@ class DOM extends _DOM {
               !this.defaultFrndToInteract ||
               (this.defaultFrndToInteract && !Markers.checkState("automate"))
             ) {
-              if (button.classList[1]) Markers.localSnap = true;
+              if (button.classList[1]) this.emit("snap-pos");
               this.doToggle(button, "selected");
             } else {
               this.openToast("Turn off automate to enable snap");

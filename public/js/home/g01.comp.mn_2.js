@@ -331,7 +331,7 @@ function doLog(button) {
           doLater(() => dom.openMiniBoard(), 300);
         }
       }
-      dom.miniBoard.classList.remove("quest");
+      dom.rmCls(dom.miniBoard, "quest");
     }
   } else {
     doLater(() => (window.location.href = "/Logs"), 300);

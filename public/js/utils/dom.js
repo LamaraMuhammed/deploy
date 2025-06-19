@@ -7,7 +7,6 @@ class _DOM {
     this.init()
     this.events = {};
     this.mp = new Map();
-    this.requestQue = new Map();
   }
 
   init() {

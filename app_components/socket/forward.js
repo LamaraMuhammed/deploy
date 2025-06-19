@@ -9,54 +9,37 @@ const forward = (msg, callback) => {
                 lat: "",
                 lng: ""
             });
-            
-        } else {
-            if (msg.data.ids) {
-                callback(msg.id, 'G01-img', msg.data);
-            }
-    
-            if (msg.data.lat && msg.data.lng) {
-                callback(msg.id, 'G01-cords', msg.data);
-            }
-        }
+            return;
+        } 
 
-    } else
-    if (msg.route === get("iA2")) {
-        if (msg.header) { 
-            callback(msg.id, 'G02-cords', {
-                header: header,
-                lat: "",
-                lng: ""
-            });
-            
-        } else {
-            if (msg.data.imgUrl) {
-                callback(msg.id, 'G02-img', msg.data);
-            }
-    
-            if (!msg.data.imgUrl) {
-                callback(msg.id, 'G02-cords', msg.data);
-            }
-        }
+        if (msg.data.ids) callback(msg.id, 'G01-img', msg.data);    
+        if (msg.data.coords) callback(msg.id, "G01-cords", msg.data);
 
-    } else
-    if (msg.route === get("mD0")) {
+    } else if (msg.route === get("iA2")) {
         if (msg.header) {
-            callback(msg.id, 'G03-cords', {
-                header: header,
-                lat: "",
-                lng: ""
-            });
-            
-        } else {
-            if (msg.data.imgUrl) {
-                callback(msg.id, 'G03-img', msg.data);
-            }
-    
-            if (!msg.data.imgUrl) {
-                callback(msg.id, 'G03-cords', msg.data);
-            }
+          callback(msg.id, "G02-cords", {
+            header: header,
+            lat: "",
+            lng: "",
+          });
+          return;
         }
+
+        if (msg.data.ids) callback(msg.id, "G02-img", msg.data);
+        if (msg.data.coords) callback(msg.id, "G02-cords", msg.data);
+
+    } else if (msg.route === get("mD0")) {
+        if (msg.header) {
+          callback(msg.id, "G03-cords", {
+            header: header,
+            lat: "",
+            lng: "",
+          });
+          return;
+        }
+
+        if (msg.data.ids) callback(msg.id, "G03-img", msg.data);
+        if (msg.data.coords) callback(msg.id, "G03-cords", msg.data);
     }
 }
 

@@ -1,6 +1,6 @@
 // USE WSS://DOMAIN FOR PRODUCTION
-// export const socket = io( {
-export const socket = io("https://deploy-21ti.onrender.com", {
+// export const socket = io({
+  export const socket = io("https://deploy-21ti.onrender.com", {
   autoConnect: false,
   transports: ["websocket"],
   reconnection: true,
@@ -37,17 +37,18 @@ dom.on("connect", () => socket.connect());
   });
 
   socket.on("G01-cords", async (data) => {
-    if (data.lat && data.lng) {
+    const { lat, lng, acc, alt, altAcc, speed, hd } = data.coords;
+    if (lat && lng) {
       if (Markers.g01Marker) map.removeLayer(Markers.g01Marker);
       try {
         Markers.g01Marker = await new L.marker(
-          L.latLng(data.lat, data.lng),
+          L.latLng(lat, lng),
           dom.defaultFrndToInteract === "g01"
             ? Markers.activeUserIcon
             : Markers.guestIcon
         );
 
-        Markers.fit(data, "g01");
+        Markers.fit(data.coords, "g01");
         Markers.g01Marker.addTo(map);
       } catch (error) {
         return false;
@@ -55,69 +56,77 @@ dom.on("connect", () => socket.connect());
     }
 
     if (dom.defaultFrndToInteract === "g01") {
-      dom.renderMyLocation(data);
+      dom.renderMyLocation(data.loc_name, "2.km", acc, speed);
     }
   });
 
   // ======================== Route Two =============================
   socket.on("G02-img", (data) => {
     if (data.ids && !dom.getVal("g02")) {
-      addConnectedFriendToRoute(2, data.imgUrl);
+      addConnectedFriendToRoute(1, data.ids[1]);
       dom.addNewGuest("g02", data);
+
+      // get the previous chats of first connected friend
+      dom.emit("getPrevChats", { self: dom.myId, remote: data.ids[1] });
     }
   });
 
   socket.on("G02-cords", async (data) => {
-    if (data.lat && data.lng) {
-      if (Markers.g02Marker) map.removeLayer(Markers.g02Marker);
+    const { lat, lng, acc, alt, altAcc, speed, hd } = data.coords;
+    if (lat && lng) {
+      if (Markers.g01Marker) map.removeLayer(Markers.g01Marker);
       try {
-        Markers.g02Marker = L.marker(
-          L.latLng(data.lat, data.lng),
+        Markers.g01Marker = await new L.marker(
+          L.latLng(lat, lng),
           dom.defaultFrndToInteract === "g02"
             ? Markers.activeUserIcon
             : Markers.guestIcon
         );
 
-        Markers.fit(data, "g02");
-        Markers.g02Marker.addTo(map);
+        Markers.fit(data.coords, "g02");
+        Markers.g01Marker.addTo(map);
       } catch (error) {
         return false;
       }
     }
 
     if (dom.defaultFrndToInteract === "g02") {
-      dom.renderMyLocation(data);
+      dom.renderMyLocation(data.loc_name, "2.km", acc, speed);
     }
   });
 
   // ======================== Route Three =============================
   socket.on("G03-img", (data) => {
     if (data.ids && !dom.getVal("g03")) {
-      addConnectedFriendToRoute(3, data.imgUrl);
+      addConnectedFriendToRoute(1, data.ids[1]);
       dom.addNewGuest("g03", data);
+
+      // get the previous chats of first connected friend
+      dom.emit("getPrevChats", { self: dom.myId, remote: data.ids[1] });
     }
   });
 
   socket.on("G03-cords", async (data) => {
-    if (data.lat && data.lng) {
-      if (Markers.g03Marker) map.removeLayer(Markers.g03Marker);
+    const { lat, lng, acc, alt, altAcc, speed, hd } = data.coords;
+    if (lat && lng) {
+      if (Markers.g01Marker) map.removeLayer(Markers.g01Marker);
       try {
-        Markers.g03Marker = L.marker(
-          L.latLng(data.lat, data.lng),
+        Markers.g01Marker = await new L.marker(
+          L.latLng(lat, lng),
           dom.defaultFrndToInteract === "g03"
             ? Markers.activeUserIcon
             : Markers.guestIcon
         );
 
-        Markers.fit(data, "g03");
-        Markers.g03Marker.addTo(map);
+        Markers.fit(data.coords, "g03");
+        Markers.g01Marker.addTo(map);
       } catch (error) {
         return false;
       }
     }
 
     if (dom.defaultFrndToInteract === "g03") {
-      dom.renderMyLocation(data);
+      dom.renderMyLocation(data.loc_name, "2.km", acc, speed);
     }
   });
 
@@ -145,67 +154,8 @@ dom.on("connect", () => socket.connect());
           }
         }
       });
-
     } else if (dis.res) {
       doLater(() => dom.local_disconnection(), 1000);
-    }
-  });
-
-  // Sender To Receiver
-  socket.on("local-G", (msg) => {
-    const { r_c_id, r_r, det } = msg;
-    if (msg.r_r === 0) {
-      if (!msg.header) {
-        sendProfileImage("remote-G", r_c_id, r_r, det);
-        // if (msg.mode !== "0CG") sendCoords('remote-G', msg.r_id, msg.r_r);
-        if (msg.mode !== "0CG")
-          setInterval(() => sender("remote-G", r_c_id, r_r), 1000);
-      } else {
-        return; //disconnect
-      }
-    } else if (msg.r_r === 1) {
-      if (!msg.header) {
-        sendProfileImage("remote-G", r_c_id, r_r, det);
-        if (msg.mode !== "0CG") sendCoords("remote-G", r_c_id, r_r);
-      } else {
-        return; //disconnect
-      }
-    } else if (msg.r_r === 2) {
-      if (!msg.header) {
-        sendProfileImage("remote-G", r_c_id, r_r, det);
-        if (msg.mode !== "0CG") sendCoords("remote-G", r_c_id, r_r);
-      } else {
-        return; //disconnect
-      }
-    }
-  });
-
-  // Receiver To Sender
-  socket.on("remote-G", (msg) => {
-    const { s_c_id, s_r, det } = msg;
-    if (msg.s_r === 0) {
-      if (!msg.header) {
-        sendProfileImage("local-G", s_c_id, s_r, det);
-        // if (msg.mode !== "0CG") sendCoords('local-G', msg.s_c_id, msg.s_r);
-        if (msg.mode !== "0CG")
-          setInterval(() => receiver("local-G", s_c_id, s_r), 1000);
-      } else {
-        return; //disconnect
-      }
-    } else if (msg.s_r === 1) {
-      if (!msg.header) {
-        sendProfileImage("local-G", s_c_id, s_r, det);
-        if (msg.mode !== "0CG") sendCoords("local-G", s_c_id, s_r);
-      } else {
-        return; //disconnect
-      }
-    } else if (msg.s_r === 2) {
-      if (!msg.header) {
-        sendProfileImage("local-G", s_c_id, s_r, det);
-        if (msg.mode !== "0CG") sendCoords("local-G", s_c_id, s_r);
-      } else {
-        return; //disconnect
-      }
     }
   });
 
@@ -264,19 +214,6 @@ dom.on("connect", () => socket.connect());
     }
   });
 
-  function sendCoords(eventL, id, route) {
-    socket.emit(eventL, {
-      id: id,
-      route: route,
-      data: {
-        locationName: "Bauchi",
-        Accuracy: 1,
-        lat: 10.30354,
-        lng: 9.832508,
-      },
-    });
-  }
-
   function addConnectedFriendToRoute(route, id) {
     socket.emit("addToRoute", { route: route, id: id });
     dom.removeReqSpinner(id);
@@ -285,86 +222,7 @@ dom.on("connect", () => socket.connect());
   socket.on("connect_error", (err) => {
     // window.location.href = '/Logs';
   });
-
 })();
-
-function sendProfileImage(eventL, id, route, data) {
-  socket.emit(eventL, {
-    id: id,
-    route: route,
-    data: data,
-  });
-}
-
-var x0x = [
-  "saye",
-  "misau",
-  "sade",
-  "rimi",
-  "feggi",
-  "fada",
-  "azare",
-  "yarwa",
-  "guru",
-  "kano",
-  "makka",
-  "madina",
-];
-function sender(eventL, id, route) {
-  socket.emit(eventL, {
-    id: id,
-    route: route,
-    data: {
-      locationName: x0x[Math.floor(Math.random() * x0x.length)],
-      Accuracy: Math.floor(Math.random() * 18),
-      lat: `10.3033${(Math.random() * (11 - 10) + 10).toString().slice(12)}`,
-      lng: "9.83250898",
-    },
-  });
-}
-
-function receiver(eventL, id, route) {
-  socket.emit(eventL, {
-    id: id,
-    route: route,
-    data: {
-      locationName: x0x[Math.floor(Math.random() * x0x.length)],
-      Accuracy: Math.floor(Math.random() * 18),
-      lat: `10.3035467845`,
-      lng: `9.8323${(Math.random() * (11 - 10) + 9).toString().slice(12)}`,
-    },
-  });
-}
-
-// Map Interaction
-map.on("click", async (e) => {
-  if (dom.action === "$ind") {
-    if (Markers.localMkList.length < 9) {
-      if (dom.actBtn === "$ind-ics") await mapComp.addLocalMarker(e);
-      if (dom.actBtn === "$ind-ctm") await mapComp.addLocalCustomMarker(e);
-    } else {
-      map.removeLayer(Markers.localIndicatorMarker);
-      Markers.localMkList.pop();
-      if (dom.actBtn === "$ind-ics") await mapComp.addLocalMarker(e);
-      if (dom.actBtn === "$ind-ctm") await mapComp.addLocalCustomMarker(e);
-    }
-  } else if (dom.action === "$illus") {
-    if (dom.isMobile) {
-      if (dom.actBtn === "$illus-s01") {
-        Markers.showDragHandle(e);
-      } else if (dom.actBtn === "$illus-b01") {
-        mapComp.showDragHandleAndSend(e);
-      }
-    } else {
-      // Pause the mousemove event and continue after click
-      if (!dom.getVal(dom.action)) {
-        dom.setVal(dom.action);
-      } else {
-        dom.deleteVal(dom.action);
-      }
-    }
-  }
-});
 
 /*
 map.on("mousemove", async (e) => {
@@ -702,7 +560,6 @@ const Recording = {
 
   sendFeet: function () {
     if (this.sumFeet.length > 2) {
-      say(this.sumFeet)
       socket.emit("tripRecording", { eventDate: dom.date, data: this.sumFeet });
 
       // delete the old for the new coming one data
@@ -738,41 +595,220 @@ const Recording = {
   },
 };
 
-// Listeners  =========================================
-dom.listen(dom.displayRec, () => {
-  dom.doToggle(dom.recordMe, "show-btns");
-  dom.doToggle(dom.displayRec, "minimize");
-});
-
-dom.listen(dom.pauseRec, () => {
-  if (!dom.rec_save) {
-    dom.doToggle(dom.pauseRec, "bx-play");
-    dom.doToggle(dom.pauseRec, "bx-pause");
-
-    if (dom.pauseRec.classList[1] === "bx-pause") {
-      dom.mp.set("recOn", false); // make recording to pause here
-    } else {
-      dom.setVal("recOn", true); // continue
-    }
+// ====================================================== FUNCTIONS ======================================================
+// POSITION INITIALIZATION
+(function () {
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(
+      (position) => {
+        if (!dom.registeredUser()) return;
+        dom.emit("init", {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          acc: position.coords.accuracy,
+          alt: position.coords.altitude,
+          altAcc: position.coords.altitudeAccuracy,
+          speed: position.coords.speed,
+          hd: position.coords.heading,
+        });
+        display({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          acc: position.coords.accuracy,
+          alt: position.coords.altitude,
+          altAcc: position.coords.altitudeAccuracy,
+          speed: position.coords.speed,
+          hd: position.coords.heading,
+        });
+      },
+      (error) => {
+        console.error(error.message);
+      }
+    );
   }
-});
+})();
 
-dom.listen(dom.saveRecBtn, () => {
-  if (!dom.getVal("recOn") && !dom.rec_save) Recording.sendFeet(); // in case rec had paused
-  doSaveRec();
-});
+// ADD MARKER
+function posMarker(c) {
+  if (!Markers.localCoords) return;
+  if (myPos) map.removeLayer(myPos);
+  if (Markers.myPosEnabled()) {
+    myPos = L.marker(c, { icon: Markers.localUserIcon });
+    myPos.addTo(map);
+  }
+}
 
+function fitBounds(a, r) {
+  say(r)
+  const z = Markers.localSnap ? map.options.maxZoom : map.getZoom();
+  const zoom = r ? map.getZoom() : z;
+  const b = r ? r : a;
+  const p = r ? 50 : 0;
+  const p1 = r ? 50 : 100;
+  
+  map.fitBounds([a, b], {
+    animate: true,
+    duration: 3,
+    easeLinearity: 0.7,
+    paddingTopLeft: [p, p1],
+    paddingBottomRight: [p, p],
+    maxZoom: zoom,
+  });
+}
+
+function sendProfileImage(event, id, route, data) {
+  socket.emit(event, { id, route, data });
+}
+
+function sendLocation(event, id, route, coords, loc_name = null) {
+  socket.emit(event, {
+    id,
+    route,
+    data: {
+      coords,
+      loc_name,
+    },
+  });
+}
+
+function onRoute(r, callback) {
+  if (r === 0) {
+    callback();
+  } else if (r === 1) {
+    callback();
+  } else if (r === 2) {
+    callback();
+  }
+}
+
+// RECORDING
 function doSaveRec() {
   dom.mp.set("recOn", false);
   dom.rec_save = true;
   doLater(() => {
-    dom.saveRecBtn.classList.add("saved");
-    dom.pauseRec.classList.remove("bx-pause");
-    dom.pauseRec.classList.add("bx-play");
+    dom.addCls(dom.saveRecBtn, "saved");
+    dom.rmCls(dom.pauseRec, "pause");
+    dom.pauseRec.src = "/icons/resume_20.svg";
   }, 500);
 }
 
-dom.listen(dom.deleteRec, () => dom.displayRecordingPanel());
+// ====================================================== EVENTS ======================================================
+// COORDINATES LISTENER
+let myPos;
+dom.on("init", (e) => {
+  Markers.localCoords = { lat: e.lat, lng: e.lng };
+
+  if (!Markers.localSnap) {
+    posMarker(Markers.localCoords);
+
+    if (Markers.checkState("automate") && Markers.myPosEnabled()) {
+      if (Markers.remoteCoords) {
+        say("Remote fit")
+        fitBounds(Markers.localCoords, Markers.remoteCoords);
+        
+      } else {
+        say("fit")
+        fitBounds(Markers.localCoords);
+      }
+    }
+  } 
+
+  if (Markers.localG) {
+    const { id, r } = Markers.localG;
+    onRoute(r, () => sendLocation("local-G", id, r, e));
+  }
+
+  if (Markers.remoteG) {
+    const { id, r } = Markers.remoteG;
+    onRoute(r, () => sendLocation("remote-G", id, r, e));
+  }
+});
+
+// SNAP THE POSITION OF USER
+dom.on("snap-pos", () => {
+  if (Markers.localCoords) {
+    Markers.localSnap = true;
+    map.flyTo(
+      L.latLng(Markers.localCoords, Markers.localCoords),
+      map.options.flyZoom
+    );
+
+    if (Math.round(map.getZoom()) === map.options.flyZoom) {
+      doLater(() => {
+        Markers.localSnap = false;
+        Markers.autoMove = true;
+      }, 100);
+    }
+  }
+});
+
+// TURN POSITION ON OR OFF
+dom.on("init-pos", (e) => {
+  if (e) {
+    Markers.setState("pos");
+    posMarker(Markers.localCoords);
+    return;
+  }
+
+  if (myPos) map.removeLayer(myPos);
+  Markers.setState("pos", "disabled");
+});
+
+socket.on("local-G", (msg) => {
+  const { r_c_id, r_r, det } = msg;
+  onRoute(r_r, () => {
+    if (msg.header) return;
+
+    sendProfileImage("remote-G", r_c_id, r_r, det);
+    if (msg.mode !== "0CG") {
+      Markers.remoteG = { id: r_c_id, r: r_r };
+      sendLocation("remote-G", r_c_id, r_r, Markers.localCoords);
+    }
+  });
+});
+
+socket.on("remote-G", (msg) => {
+  const { s_c_id, s_r, det } = msg;
+  onRoute(s_r, () => {
+    if (msg.header) return;
+
+    sendProfileImage("local-G", s_c_id, s_r, det);
+    if (msg.mode !== "0CG") {
+      Markers.localG = { id: s_c_id, r: s_r };
+      sendLocation("local-G", s_c_id, s_r, Markers.localCoords);
+    }
+  });
+});
+
+// Map Interaction
+map.on("click", async (e) => {
+  if (dom.action === "$ind") {
+    if (Markers.localMkList.length < 9) {
+      if (dom.actBtn === "$ind-ics") await mapComp.addLocalMarker(e);
+      if (dom.actBtn === "$ind-ctm") await mapComp.addLocalCustomMarker(e);
+    } else {
+      map.removeLayer(Markers.localIndicatorMarker);
+      Markers.localMkList.pop();
+      if (dom.actBtn === "$ind-ics") await mapComp.addLocalMarker(e);
+      if (dom.actBtn === "$ind-ctm") await mapComp.addLocalCustomMarker(e);
+    }
+  } else if (dom.action === "$illus") {
+    if (dom.isMobile) {
+      if (dom.actBtn === "$illus-s01") {
+        Markers.showDragHandle(e);
+      } else if (dom.actBtn === "$illus-b01") {
+        mapComp.showDragHandleAndSend(e);
+      }
+    } else {
+      // Pause the mousemove event and continue after click
+      if (!dom.getVal(dom.action)) {
+        dom.setVal(dom.action);
+      } else {
+        dom.deleteVal(dom.action);
+      }
+    }
+  }
+});
 
 // Deleting markers
 dom.listen(dom.delOne, () => {
@@ -791,115 +827,10 @@ dom.listen(dom.getById("$b01"), () => {
 
 dom.listen(dom.getById("deleteTrip"), () => {
   if (Markers.tripData.length > 0 && dom.tripInfo.classList[1]) {
-    Markers.deleteData(true);
+    Markers.deleteData(self);
     mapComp.get_content_updates("deleteTrip", true);
   }
 });
-
-
-
-
-//  ------------------------------
-const d = dom.select('.opp');
-var point, point1;
-
-dom.listen(dom.userLogo, () => {
-  dom.doToggle(d, 'show');
-})
-
-function display(data, c = 'a') {
-  let div = dom.create('div');
-  dom.addCls(div, c);
-
-  for (let i = 0; i < 7; i++) {
-    let c = dom.create('p');
-    dom.swapText(c, data[i]);
-    div.appendChild(c);
-  }
-  d.appendChild(div);
-}
-
-const w_pos = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(
-      (position) => {
-        display(
-          [
-            "Latitude: " + position.coords.latitude,
-            "Longitude: " + position.coords.longitude,
-            "acc: " + position.coords.accuracy,
-            "alt: " + position.coords.altitude,
-            "altAcc: " + position.coords.altitudeAccuracy,
-            "speed: " + position.coords.speed,
-            "hd: " + position.coords.heading,
-          ], 'w');
-      },
-      (error) => {
-        console.error(error.message);
-      }
-    );
-  }
-};
-
-w_pos();
-
-const pos = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const coords = {
-          from: "navigator.geolocation",
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          acc: position.coords.accuracy,
-          alt: position.coords.altitude,
-          altAcc: position.coords.altitudeAccuracy,
-          speed: position.coords.speed,
-          hd: position.coords.heading,
-        };
-        display(
-          [
-            "Latitude: " + position.coords.latitude,
-            "Longitude: " + position.coords.longitude,
-            "acc: " + position.coords.accuracy,
-            "alt: " + position.coords.altitude,
-            "altAcc: " + position.coords.altitudeAccuracy,
-            "speed: " + position.coords.speed,
-            "hd: " + position.coords.heading,
-          ]);
-        let e = L.latLng(position.coords.latitude, position.coords.longitude);
-        // mapComp.addLocalMarker(e);
-        
-        try {
-          if (point) map.removeLayer(point);
-          // if (point1) map.removeLayer(point1);
-
-          point = L.marker(e);
-          point1 = L.marker(e, {
-            icon: Markers.remotePsMidIcon,
-          });
-          
-          point1.addTo(map);
-          point.addTo(map);
-
-        } catch (err) {
-          console.error(err); // Log the error
-          return;
-        }
-        
-        // socket.emit("pwd-check", coords);
-      },
-      (error) => {
-        console.error(error.message); // Log the error
-        // dom.openToast(error.message);
-      }
-    );
-  }
-};
-
-
-
-
 
 dom.listen(dom.disconnectBtn, () => {
   const x_id = dom.getVal(dom.defaultFrndToInteract).id;
@@ -910,74 +841,56 @@ dom.listen(dom.disconnectBtn, () => {
       disconnect_id: x_id,
     });
 
-    dom.loader.classList.add("start");
+    dom.addCls(dom.loader, "start");
   }
 });
 
-// ============================================
-let myPos;
-let lng = 9.83459;
-let inc = 0.00001;
-(function () {
-  setInterval(() => {
-    lng += inc;
-    Markers.localCoords = { lat: `10.30381456`, lng: lng };
-    pos();
-    //  On Ps Number connection
-    if (dom.getVal("ps-req")) mapComp.sendPs_Req(Markers.localCoords);
+// RECORDING
+dom.listen(dom.displayRec, () => {
+  dom.doToggle(dom.recordMe, "show-btns");
+  dom.doToggle(dom.displayRec, "minimize");
+});
 
-    if (dom.registeredUser()) {
-      Recording.startRecording(); // Trip Recording
-
-      if (myPos) map.removeLayer(myPos);
-      if (Markers.myPosEnabled()) {
-        myPos = L.marker(L.latLng(Markers.localCoords), {
-          icon: Markers.localUserIcon,
-        });
-        myPos.addTo(map);
-
-        if (Markers.autoMove || Markers.localSnap) {
-          if (!Markers.remoteCoords) {
-            if (Markers.localSnap) {
-              map.flyTo(
-                L.latLng(Markers.localCoords, Markers.localCoords),
-                map.options.flyZoom
-              );
-
-              if (Math.round(map.getZoom()) === map.options.flyZoom) {
-                doLater(() => {
-                  Markers.localSnap = false;
-                  Markers.autoMove = true;
-                }, 100);
-              }
-            } else if (Markers.checkState("automate")) {
-              map.fitBounds([Markers.localCoords, Markers.localCoords], {
-                animate: true,
-                duration: 3,
-                easeLinearity: 0.7,
-                paddingTopLeft: [0, 100],
-                paddingBottomRight: [0, 0],
-                maxZoom: Markers.localSnap
-                  ? map.options.maxZoom
-                  : map.getZoom(),
-              });
-            }
-          } else if (Markers.remoteCoords) {
-            map.fitBounds([Markers.localCoords, Markers.remoteCoords], {
-              animate: true,
-              duration: 3,
-              easeLinearity: 0.7,
-              padding: [50, 50],
-              maxZoom: map.getZoom(),
-            });
-            Markers.remoteCoords = null;
-          }
-        }
-      }
+dom.listen(dom.pauseRec, () => {
+  if (!dom.rec_save) {
+    if (dom.pauseRec.classList[2]) {
+      dom.setVal("recOn", true); // continue
+      dom.rmCls(dom.pauseRec, "pause");
+      dom.pauseRec.src = "/icons/pause_20.svg";
+      return;
     }
-  }, 1000);
-})();
+
+    dom.mp.set("recOn", false); // make recording to pause here
+    dom.addCls(dom.pauseRec, "pause");
+    dom.pauseRec.src = "/icons/resume_20.svg";
+  }
+});
+
+dom.listen(dom.saveRecBtn, () => {
+  if (!dom.getVal("recOn") && !dom.rec_save) Recording.sendFeet(); // in case rec had paused
+  doSaveRec();
+});
+
+dom.listen(dom.deleteRec, () => dom.displayRecordingPanel());
 
 window.onbeforeunload = function (e) {
   if (dom.mp.get("recOn") && Recording.sumFeet.length > 2) Recording.sendFeet();
 };
+
+//  ------------------------------
+dom.listen(dom.userLogo, () => {
+  dom.doToggle(d, "show");
+});
+
+const d = dom.select(".opp");
+function display(data) {
+  let div = dom.create("div");
+  data = [data.lat, data.lng, data.acc, data.speed];
+
+  for (let i = 0; i < data.length; i++) {
+    let c = dom.create("p");
+    dom.swapText(c, data[i]);
+    div.appendChild(c);
+  }
+  d.appendChild(div);
+}

@@ -59,6 +59,8 @@ new function() {
 };
 
 const Markers = {
+  localG: null,
+  remoteG: null,
   g01Marker: null,
   g02Marker: null,
   g03Marker: null,
@@ -142,7 +144,7 @@ const Markers = {
   
   checkState: function (x) { return localStorage.getItem(x) === 'enabled' ?? false; },
 
-  myPosEnabled: function () { return this.checkState("pos") ?? false; },
+  myPosEnabled: function () { return this.checkState("pos")},
 
   activeRoute: function(route) {
     if (dom.defaultFrndToInteract === route) {return true} else {return false};
@@ -316,8 +318,7 @@ const Markers = {
       this.copyTripData.splice(0, this.copyTripData.length);
       this.bbox.splice(0, this.bbox.length);
       if (self) {
-        doLater(() => dom.tripInfoMsg("Trip bank deleted!", true), 700);
-        dom.rmCls(dom.tripInfo, "data");
+        doLater(() => dom.tripInfoMsg("Trip bank deleted!"), 700);
       }
     }
 
