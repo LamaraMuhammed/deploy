@@ -1,27 +1,76 @@
 class _DOM {
-  constructor() {
+  constructor(callback) {
     this.isMobile = /iPhone|iPad|iPod|Android|mobile/i.test(
       navigator.userAgent
     );
 
-    this.init()
+    this.init(callback);
     this.events = {};
     this.mp = new Map();
   }
 
-  init() {
+  init(callback) {
     this.listen(
       window,
       (e) => {
         const loader = this.getById("loader");
         const content = this.getById("_main");
+        // ON OTHER PAGES
+        if (!callback) {
+          this.showContent(loader, content);
+          return;
+        }
 
-        this.emit("connect", true); // allow socket to connect
-        loader.style.display = "none"; // Hide loader
+        const idx = JSON.parse(Markers.getState("g-c"));
+        let ele = this.create("div");
+        let xy = idx?.c.split("/");
+        let coords = map.containerPointToLatLng({ x: xy[0], y: xy[1] });
+
+        // USER HAS LAST PREV COORDS
+        if (this.getInterval(idx?.t)) {
+          this.emit("connect", true); // allow socket to connect
+          this.emit("init", coords);
+          callback(); // init pos
+          this.showContent(loader, content);
+          return;
+        }
+
+
+        this.addCls(loader, "wait-pos");
         content.style.visibility = "visible"; // Show the actual UI
+
+        this.swapText(ele, "Preparing location ...");
+        loader.insertAdjacentElement("beforeend", ele);
+
+        callback((res) => {
+          this.emit("connect", true); // allow socket to connect
+          if (res) {
+            this.showContent(loader, content);
+            ele.remove();
+          }
+          return;
+        });
+
+        doLater(() => this.swapText(ele, "Please wait ..."), 5000);
+
+        doLater(() => {
+          ele.style.color = "#0f0";
+          this.swapText(ele, "Here you go!");
+          this.emit("connect", true); // allow socket to connect
+        }, 9000);
+
+        setTimeout(() => {
+          this.showContent(loader, content);
+          ele.remove();
+        }, 10000);
       },
       "load"
     );
+  }
+
+  showContent(l, c) {
+    l.style.display = "none"; // Hide loader
+    c.style.visibility = "visible"; // Show the actual UI
   }
 
   on(event, Listener) {
@@ -115,6 +164,19 @@ class _DOM {
     return `${h > 12 ? h - 12 : h}:${
       min < 10 ? "0" + min : min
     } ${am_pm.substring(am_pm.length - 2)}`;
+  }
+
+  getInterval(previousTime) {
+    if (previousTime) {
+      const currentTime = Date.now();
+      const elapsed = currentTime - previousTime;
+      // 60,000 ms = 1 minute
+      let min = elapsed / 1000;
+      
+      min = min / 60;
+      // 60m = 1hr 1750414641273
+      if (min <= 60) return min;
+    }
   }
 
   logError(url, colNo, err) {

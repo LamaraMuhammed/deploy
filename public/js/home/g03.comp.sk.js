@@ -596,38 +596,6 @@ const Recording = {
 };
 
 // ====================================================== FUNCTIONS ======================================================
-// POSITION INITIALIZATION
-(function () {
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(
-      (position) => {
-        if (!dom.registeredUser()) return;
-        dom.emit("init", {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          acc: position.coords.accuracy,
-          alt: position.coords.altitude,
-          altAcc: position.coords.altitudeAccuracy,
-          speed: position.coords.speed,
-          hd: position.coords.heading,
-        });
-        display({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          acc: position.coords.accuracy,
-          alt: position.coords.altitude,
-          altAcc: position.coords.altitudeAccuracy,
-          speed: position.coords.speed,
-          hd: position.coords.heading,
-        });
-      },
-      (error) => {
-        console.error(error.message);
-      }
-    );
-  }
-})();
-
 // ADD MARKER
 function posMarker(c) {
   if (!Markers.localCoords) return;
@@ -639,7 +607,6 @@ function posMarker(c) {
 }
 
 function fitBounds(a, r) {
-  say(r)
   const z = Markers.localSnap ? map.options.maxZoom : map.getZoom();
   const zoom = r ? map.getZoom() : z;
   const b = r ? r : a;
@@ -697,17 +664,15 @@ function doSaveRec() {
 let myPos;
 dom.on("init", (e) => {
   Markers.localCoords = { lat: e.lat, lng: e.lng };
-
+  display(e);
   if (!Markers.localSnap) {
     posMarker(Markers.localCoords);
 
     if (Markers.checkState("automate") && Markers.myPosEnabled()) {
       if (Markers.remoteCoords) {
-        say("Remote fit")
         fitBounds(Markers.localCoords, Markers.remoteCoords);
         
       } else {
-        say("fit")
         fitBounds(Markers.localCoords);
       }
     }
@@ -733,12 +698,10 @@ dom.on("snap-pos", () => {
       map.options.flyZoom
     );
 
-    if (Math.round(map.getZoom()) === map.options.flyZoom) {
-      doLater(() => {
-        Markers.localSnap = false;
-        Markers.autoMove = true;
-      }, 100);
-    }
+    doLater(() => {
+      Markers.localSnap = false;
+      Markers.autoMove = true;
+    }, 1000);
   }
 });
 
@@ -894,3 +857,22 @@ function display(data) {
   }
   d.appendChild(div);
 }
+
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") {
+    if (Markers.localCoords) {
+      let c = map.latLngToContainerPoint(Markers.localCoords);
+      c = JSON.stringify({ c: c.x + "/" + c.y, t: Date.now() });
+      Markers.setState("g-c", c);
+    }
+    
+  } else if (document.visibilityState === "visible") {
+    console.log("User returned to the page");
+    // You could resume playback, refresh data, etc.
+  }
+});
+
+window.addEventListener("beforeunload", function (event) {
+  console.log("User is about to leave the site");
+  // Custom behavior here—though modern browsers limit this interaction
+});

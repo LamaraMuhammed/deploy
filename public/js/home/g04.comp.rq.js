@@ -15,7 +15,6 @@ socket.on('request', (msg) => {
 socket.on("waitRes", res => dom.reqSpinner(res.id, () => socket.emit('removeListening', res.id)));
 
 // Notification
-// let msg = {id: "09012345678", imgUrl: 'self', message: "lamara muhammed added you in close watch"}
 socket.on("notification", (msg) => dom.create_notification(msg?.id, msg?.imgUrl, msg?.message, sendRequest));
 
 socket.on("clw-info", msg => { 
@@ -67,7 +66,9 @@ dom.listen(dom.getById("open-frnd-panel-icon"), () =>
   dom.showFriendListPanel()
 );
 dom.listen(dom.scroller, () => dom.closeFriendListPanel());
-dom.listen(dom.chatInput, () => dom.closeFriendListPanel());
+dom.listen(dom.chatPage, (e) => {
+    if (e.srcElement.classList[0] === 'chat') dom.closeFriendListPanel();
+});
 
 // Select All to chat
 dom.listen(dom.radio, (e) => {

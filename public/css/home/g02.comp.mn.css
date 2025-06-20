@@ -68,6 +68,7 @@
     justify-content: center;
     position: absolute;
     flex-flow: row-reverse;
+    font-weight: 600;
     gap: 10px;
     right: 2px;
     cursor: default;
@@ -98,7 +99,7 @@
     color: #2bff00;
     text-align: justify;
     overflow: hidden;
-    border-right: 2px solid rgb(255, 0, 0);
+    border-right: 1.5px solid rgb(255, 0, 0);
     font-weight: 900;
     right: 10px;
     transition: 100ms ease-in-out;
@@ -386,7 +387,7 @@
     padding-inline: 1em;
     /* width: 100%; */
     max-width: 275px;
-    border: 2px solid var(--bd);
+    border: .1px solid var(--bd);
     background-color: var(--bg02);
 }
 input::placeholder {
@@ -398,7 +399,7 @@ input::placeholder {
     font-weight: 600;
 }
 #shr-loc-hint{color: #f60000; margin-block: .3em;}
-.share-input input:focus{border: 2px solid hsla(236, 97%, 43%, 0.673);}
+.share-input input:focus{border: 1px solid hsla(236, 97%, 43%, 0.673);}
 .share-btns button{
     border: none;
     outline: none;
@@ -409,7 +410,7 @@ input::placeholder {
     border-radius: 10px;
     margin: auto 10px;
     font-weight: 700;
-    border: 2px solid var(--bd);
+    border: .1px solid var(--bd);
     transition: 300ms ease;
     width: 100%;
     overflow: hidden;
@@ -671,12 +672,12 @@ input::placeholder {
     height: 47px;
     font-size: 1.0em;
     padding: .8em;
-    border: 2px solid var(--bd);
+    border: .1px solid var(--bd);
     background-color: var(--bg02);
     border-radius: 10px;
 }
 .custom-icon textarea:focus {
-    border: 2px solid hsla(236, 97%, 43%, 0.673);
+    border: 1px solid hsla(236, 97%, 43%, 0.673);
 }
 .custom-icon textarea::placeholder{font-size: .9em;}
 .custom-icon .custom-img{display: flex; gap: .5em;}

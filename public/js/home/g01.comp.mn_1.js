@@ -1,6 +1,36 @@
 class DOM extends _DOM {
   constructor() {
-    super();
+    // POSITION INITIALIZATION
+    const init_position = (callback) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+          (position) => {
+            if (!this.sent && callback) {
+              callback(true);
+              this.sent = true;
+            }
+            if (!this.registeredUser()) return;
+            this.emit("init", {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              acc: position.coords.accuracy,
+              alt: position.coords.altitude,
+              altAcc: position.coords.altitudeAccuracy,
+              speed: position.coords.speed,
+              hd: position.coords.heading,
+            });
+          },
+          (error) => {},
+          {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+          }
+        );
+      }
+    }
+
+    super(init_position);
+    
     this.defaultFrndToInteract = null;
     this.myId = null;
     this.toastDelayId = null;
@@ -13,6 +43,7 @@ class DOM extends _DOM {
     this.actBtn = null;
     this.fullViewImg = null;
     this.rec_save = false;
+    this.sent = false;
 
     this.requestQue = new Map();
     this.formData = new FormData();
@@ -445,7 +476,7 @@ class DOM extends _DOM {
     this.swapText(this.quickPanelName, name);
   }
 
-  renderMyLocation(loc_name = '', dis = '', acc = '', speed) {
+  renderMyLocation(loc_name = "", dis = "", acc = "", speed) {
     this.swapText(this.location, loc_name);
     this.swapText(this.distance, dis);
     this.swapText(this.accuracy, acc); // suppose to make it like visual and animated
@@ -515,7 +546,7 @@ class DOM extends _DOM {
       this.addCls(this.recordMe, "startRec");
       this.setVal("prev_note", this.tripInfo.innerHTML);
       this.tripInfoMsg("Trip recording started ...");
-      
+
       doLater(() => {
         this.addCls(this.recordMe, "show-btns");
         this.emit("start-recording", true); // starting trip recording
@@ -693,7 +724,6 @@ class DOM extends _DOM {
         this.rmCls(onOff, "eye-open");
         onOff.src = "/icons/eye-crossed.svg";
         this.pwdInput.setAttribute("type", "password");
-        
       } else {
         this.addCls(onOff, "eye-open");
         onOff.src = "/icons/eye.svg";
@@ -910,7 +940,6 @@ class DOM extends _DOM {
         case "pos":
           if (Markers.checkState("pos")) {
             this.emit("init-pos", false);
-            
           } else {
             this.emit("init-pos", true);
           }
@@ -1033,7 +1062,6 @@ class DOM extends _DOM {
       console.error("Notification permission denied.");
     }
   }
-
 }
 
 const dom = new DOM();

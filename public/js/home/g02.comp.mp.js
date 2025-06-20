@@ -144,6 +144,8 @@ const Markers = {
   
   checkState: function (x) { return localStorage.getItem(x) === 'enabled' ?? false; },
 
+  getState: function (x) { return localStorage.getItem(x); },
+
   myPosEnabled: function () { return this.checkState("pos")},
 
   activeRoute: function(route) {

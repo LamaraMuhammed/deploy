@@ -25,6 +25,8 @@ module.exports = async function (socket, next) {
     // compare the token with the cookie
     const { id, token, username, phone_number } = parseCookie;
     const { iat, exp, ...user } = tk;
+
+    console.log(token, phone_number, username, user)
     
     if (token !== user.id && phone_number !== user.phn) {  
         // If the token is not present, return an error
