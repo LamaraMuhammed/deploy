@@ -861,8 +861,7 @@ function display(data) {
 document.addEventListener("visibilitychange", function () {
   if (document.visibilityState === "hidden") {
     if (Markers.localCoords) {
-      let c = map.latLngToContainerPoint(Markers.localCoords);
-      c = JSON.stringify({ c: c.x + "/" + c.y, t: Date.now() });
+      let c = JSON.stringify({ c: Markers.reverseCoords(Markers.localCoords), t: Date.now() });
       Markers.setState("g-c", c);
     }
     

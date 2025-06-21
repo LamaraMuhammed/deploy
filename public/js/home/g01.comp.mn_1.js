@@ -5,20 +5,12 @@ class DOM extends _DOM {
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
           (position) => {
+            if (!this.registeredUser()) return;
             if (!this.sent && callback) {
               callback(true);
               this.sent = true;
             }
-            if (!this.registeredUser()) return;
-            this.emit("init", {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-              acc: position.coords.accuracy,
-              alt: position.coords.altitude,
-              altAcc: position.coords.altitudeAccuracy,
-              speed: position.coords.speed,
-              hd: position.coords.heading,
-            });
+            this.emit("init", fmt(position));
           },
           (error) => {},
           {
@@ -27,10 +19,22 @@ class DOM extends _DOM {
           }
         );
       }
-    }
+
+      function fmt(pos) {
+        return {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          acc: pos.coords.accuracy,
+          alt: pos.coords.altitude,
+          altAcc: pos.coords.altitudeAccuracy,
+          speed: pos.coords.speed,
+          hd: pos.coords.heading,
+        };
+      }
+    };
 
     super(init_position);
-    
+
     this.defaultFrndToInteract = null;
     this.myId = null;
     this.toastDelayId = null;

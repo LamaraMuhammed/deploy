@@ -13,6 +13,7 @@ class _DOM {
     this.listen(
       window,
       (e) => {
+        this.emit("connect", true); // allow socket to connect
         const loader = this.getById("loader");
         const content = this.getById("_main");
         // ON OTHER PAGES
@@ -23,18 +24,14 @@ class _DOM {
 
         const idx = JSON.parse(Markers.getState("g-c"));
         let ele = this.create("div");
-        let xy = idx?.c.split("/");
-        let coords = map.containerPointToLatLng({ x: xy[0], y: xy[1] });
-
+        
         // USER HAS LAST PREV COORDS
         if (this.getInterval(idx?.t)) {
-          this.emit("connect", true); // allow socket to connect
-          this.emit("init", coords);
           callback(); // init pos
+          this.emit("init", Markers.arrCoords(idx.c));
           this.showContent(loader, content);
           return;
         }
-
 
         this.addCls(loader, "wait-pos");
         content.style.visibility = "visible"; // Show the actual UI
@@ -43,7 +40,6 @@ class _DOM {
         loader.insertAdjacentElement("beforeend", ele);
 
         callback((res) => {
-          this.emit("connect", true); // allow socket to connect
           if (res) {
             this.showContent(loader, content);
             ele.remove();
@@ -51,15 +47,14 @@ class _DOM {
           return;
         });
 
-        doLater(() => this.swapText(ele, "Please wait ..."), 5000);
+        doLater(() => this.swapText(ele, "Please wait ..."), 4000);
 
         doLater(() => {
           ele.style.color = "#0f0";
           this.swapText(ele, "Here you go!");
-          this.emit("connect", true); // allow socket to connect
-        }, 9000);
+        }, 7000);
 
-        setTimeout(() => {
+        doLater(() => {
           this.showContent(loader, content);
           ele.remove();
         }, 10000);
@@ -174,10 +169,12 @@ class _DOM {
       let min = elapsed / 1000;
       
       min = min / 60;
-      // 60m = 1hr 1750414641273
+      // 60m = 1hr 
       if (min <= 60) return min;
     }
   }
+
+  random(arr) {return arr[Math.floor(Math.random() * arr.length)]}
 
   logError(url, colNo, err) {
     fetch("/client_site_error_logger", {
