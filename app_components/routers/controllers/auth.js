@@ -7,8 +7,7 @@ module.exports = function (req, res, next) {
         referer: req.headers["referer"],
         fetchSite: req.headers["sec-fetch-site"],
     };
-    console.log(logDetails._ck)
-    console.log(logDetails.dvc)
+    console.log("COOKIE: ", logDetails._ck)
     // Proceed to the next middleware or route handler
     res.user = logDetails;
     next();
