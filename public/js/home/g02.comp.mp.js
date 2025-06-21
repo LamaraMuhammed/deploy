@@ -1,8 +1,8 @@
 say(localStorage.getItem('g-c'))
-const googleSet = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-// const googleSet = L.tileLayer('http://{s}.google.com/vt/lyrs,h=s&x={x}&y={y}&z={z}',{
+// const googleSet = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const googleSet = L.tileLayer('https://{s}.google.com/vt/lyrs,h=s&x={x}&y={y}&z={z}',{
 // const googleSet = L.tileLayer(
-//   "http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+//   "https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
 //   {
     minZoom: 7,
     maxZoom: 20,

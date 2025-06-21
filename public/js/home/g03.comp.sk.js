@@ -701,7 +701,7 @@ dom.on("snap-pos", () => {
     doLater(() => {
       Markers.localSnap = false;
       Markers.autoMove = true;
-    }, 1000);
+    }, 3000);
   }
 });
 

@@ -8,6 +8,8 @@ module.exports = async function (socket, next) {
     const _token = socket.handshake.auth?.token;
     const ck = socket.handshake.headers.cookie;
     
+        console.log(_token, ck)
+    
     if (!path || !_token || !ck) {
         // If the token is not present, return an error
         return next(new Error("Authentication token missing"));
@@ -25,8 +27,6 @@ module.exports = async function (socket, next) {
     // compare the token with the cookie
     const { id, token, username, phone_number } = parseCookie;
     const { iat, exp, ...user } = tk;
-
-    console.log(token, phone_number, username, user)
     
     if (token !== user.id && phone_number !== user.phn) {  
         // If the token is not present, return an error
