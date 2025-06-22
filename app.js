@@ -11,18 +11,18 @@ const { Server } = require("socket.io");
 const path = require("path");
 const compression = require("compression");
 
-const logUser = require('./app_components/routers/users');
-const auth = require('./app_components/routers/controllers/auth');
-const error_handler = require('./app_components/routers/controllers/error_logger');
-const home = require('./app_components/routers/home');
-const IO = require('./app_components/socket/io');
-const io_auth = require('./app_components/socket/io_auth');
-const images = require('./app_components/routers/profile_image');
-const feedback = require('./app_components/routers/user_fdback');
-const tour = require('./app_components/routers/tour');
-const account_setting = require('./app_components/routers/account_setting');
-const client_site_error_logger = require("./app_components/routers/client_site_error_logger");
-const subscription = require("./app_components/routers/subscription");
+const logUser = require('./routes/users');
+const auth = require('./controllers/auth');
+const error_handler = require('./controllers/error_logger');
+const home = require('./routes/home');
+const IO = require('./socket/io');
+const io_auth = require('./socket/io_auth');
+const images = require('./routes/profile_image');
+const feedback = require('./routes/user_fdback');
+const tour = require('./routes/tour');
+const account_setting = require('./routes/account_setting');
+const client_site_error_logger = require("./routes/client_site_error_logger");
+const subscription = require("./routes/subscription");
 
 const app = express();
 

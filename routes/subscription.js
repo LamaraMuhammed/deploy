@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const vapid = require("../../config/vapid");
+const vapid = require("../utils/vapid");
 
 // db
 const subscribers = [];

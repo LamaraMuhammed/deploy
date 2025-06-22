@@ -1,5 +1,5 @@
 const Cookie = require("cookie");
-const { inspect } = require("../../utils/checkPoint");
+const { inspect } = require("../utils/checkPoint");
 const sign_id = require("./sign_id");
 
 module.exports = async function userConsent(req, res) {

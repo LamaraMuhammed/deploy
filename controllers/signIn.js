@@ -1,9 +1,9 @@
 const Cookie = require("cookie");
 
-const { schema } = require("../../models/model");
-const { inspect } = require("../../utils/checkPoint");
-const { sanitizeMe } = require("../../../public/js/utils/regexInputValues");
-const { psnLogin } = require("../../utils/psn");
+const { schema } = require("../models/model");
+const { inspect } = require("../utils/checkPoint");
+const { sanitizeMe } = require("../public/js/utils/regexInputValues");
+const { psnLogin } = require("../utils/psn");
 const sign_id = require("./sign_id");
 
 module.exports = async function signIn(req, res) {

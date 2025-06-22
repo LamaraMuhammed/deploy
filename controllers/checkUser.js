@@ -1,4 +1,4 @@
-const { schema } = require("../../models/model");
+const { schema } = require("../models/model");
 
 module.exports = async function checkUser(req, res) {
     const data = req.body;

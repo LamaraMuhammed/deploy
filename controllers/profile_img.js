@@ -1,8 +1,8 @@
 const Cookie = require("cookie");
 const fs = require("fs");
 
-const { schema } = require("../../models/model");
-const { inversion } = require("../../utils/inversion");
+const { schema } = require("../models/model");
+const { inversion } = require("../utils/inversion");
 
 module.exports = async function (req, res) {
   const { referer, fetchSite, _ck } = res.user;

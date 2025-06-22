@@ -1,8 +1,8 @@
 const fs = require("fs");
 const sharp = require("sharp");
 
-const { inspect } = require("../../utils/checkPoint");
-const { schema } = require("../../models/model");
+const { inspect } = require("../utils/checkPoint");
+const { schema } = require("../models/model");
 
 module.exports = async function (req, res) {
   const { _ck, referer, fetchSite } = res.user;

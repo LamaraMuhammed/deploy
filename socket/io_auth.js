@@ -1,4 +1,4 @@
-const verify_id = require("../routers/controllers/verify_id");
+const verify_id = require("../controllers/verify_id");
 const { inspect } = require("../utils/checkPoint");
 
 
@@ -7,9 +7,6 @@ module.exports = async function (socket, next) {
     const path = socket.handshake.auth?.path;
     const _token = socket.handshake.auth?.token;
     const ck = socket.handshake.headers.cookie;
-    
-        console.log("TOKEN: ", _token)
-        console.log("SOCKET COOKIE: ", ck)
     
     if (!path || !_token || !ck) {
         // If the token is not present, return an error

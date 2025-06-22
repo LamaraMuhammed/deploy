@@ -1,7 +1,3 @@
- 
-
-
-
 const XYZ = {
     get: function(k, mode = "enc") {
         if (mode === "enc") {

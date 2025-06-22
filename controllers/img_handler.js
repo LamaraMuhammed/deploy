@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-const { inspect } = require("../../utils/checkPoint");
+const { inspect } = require("../utils/checkPoint");
 
 //  User Image Storing and Processing Using Multer
 var sender, filename;

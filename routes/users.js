@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const signUp = require('./controllers/signUp');
-const signIn = require('./controllers/signIn');
-const checkUser = require('./controllers/checkUser');
-const userConsent = require('./controllers/userConsent');
-const singOut = require('./controllers/singOut');
+const signUp = require('../controllers/signUp');
+const signIn = require('../controllers/signIn');
+const checkUser = require('../controllers/checkUser');
+const userConsent = require('../controllers/userConsent');
+const singOut = require('../controllers/singOut');
 
 router.get('/', (req, res) => {
     res.render("login");

@@ -1,5 +1,5 @@
 const Cookie = require("cookie");
-const { inspect } = require("../../utils/checkPoint");
+const { inspect } = require("../utils/checkPoint");
 
 
 module.exports = async function signOut(req, res) {

@@ -2,7 +2,7 @@ const { inversion } = require('../utils/inversion');
 const { schema } = require('../models/model');
 
 const webp = require("web-push");
-const vapid = require('../../config/vapid');
+const vapid = require('../utils/vapid');
 
 // WEB PUSH 
 webp.setVapidDetails(

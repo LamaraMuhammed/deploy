@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const Cookie = require("cookie");
 const { v4 } = require("node-uuid");
 
+const { inversion } = require("../utils/inversion");
 const { schema } = require("../models/model");
-const { inversion } = require("./inversion");
 
 class Check {
   constructor() {

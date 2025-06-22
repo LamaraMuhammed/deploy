@@ -1,9 +1,9 @@
 const Cookie = require("cookie");
 const bcrypt = require("bcrypt");
 
-const { schema } = require("../../models/model");
-const { inspect } = require("../../utils/checkPoint");
-const { createPsn } = require("../../utils/psn");
+const { inspect } = require("../utils/checkPoint");
+const { createPsn } = require("../utils/psn"); 
+const { schema } = require("../models/model");
 
 module.exports = async function SignUp(req, res) {
   const data = req.body;

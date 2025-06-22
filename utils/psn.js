@@ -1,4 +1,4 @@
-const { mysql } = require("../../connection/dbConnection");
+const { mysql } = require("../config/database");
 const { psGenerator, comparePsNo } = require("./psGen");
 
 
